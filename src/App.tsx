@@ -110,16 +110,16 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="max-w-5xl"
+          className="max-w-4xl"
         >
-          <span className="text-xs uppercase tracking-[0.2em] md:tracking-[0.3em] text-zinc-400 mb-6 md:mb-8 block font-bold leading-relaxed">
+          <span className="text-xs uppercase tracking-[0.2em] md:tracking-[0.3em] text-zinc-400 mb-4 md:mb-6 block font-bold leading-relaxed">
             Product Management Trainee at Harisenin.com
           </span>
-          <h1 className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-bold leading-[1.1] md:leading-[0.85] tracking-tighter mb-8 md:mb-10 text-black">
+          <h1 className="text-5xl sm:text-6xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tighter mb-8 md:mb-10 text-black">
             Turning User Problems <br className="hidden md:block" />
             <span className="text-zinc-300 md:inline block">into</span> Product Decisions.
           </h1>
-          <p className="text-lg sm:text-xl md:text-2xl max-w-3xl text-zinc-500 leading-relaxed mb-10 md:mb-12">
+          <p className="text-lg md:text-xl max-w-2xl text-zinc-500 leading-relaxed mb-10 md:mb-12">
             Information Systems student at Universitas Brawijaya with hands-on experience in Product Management, user research, and AI-augmented workflows.
           </p>
           <div className="flex flex-col sm:flex-row flex-wrap gap-4 sm:gap-6 items-start sm:items-center">
