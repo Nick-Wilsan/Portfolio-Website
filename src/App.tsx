@@ -27,6 +27,7 @@ import {
 import { useState } from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import TravelWiseCase from "./pages/TravelWiseCase";
+import travelwiseCover from "./assets/travelwise-cover.png";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -528,11 +529,6 @@ export default function App() {
           </div>
         } />
         <Route path="/case/travelwise" element={<TravelWiseCase />} />
-      </Routes>
-    </BrowserRouter>
-  );
-}
-te path="/case/travelwise" element={<TravelWiseCase />} />
       </Routes>
     </BrowserRouter>
   );
