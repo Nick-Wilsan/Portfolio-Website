@@ -115,7 +115,7 @@ const Hero = () => {
           <span className="text-xs uppercase tracking-[0.2em] md:tracking-[0.3em] text-zinc-400 mb-4 md:mb-6 block font-bold leading-relaxed">
             Product Management Trainee at Harisenin.com
           </span>
-          <h1 className="text-5xl sm:text-6xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tighter mb-8 md:mb-10 text-black">
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black leading-tight tracking-tight max-w-5xl mb-8 md:mb-10 text-black">
             Turning User Problems <br className="hidden md:block" />
             <span className="text-zinc-300 md:inline block">into</span> Product Decisions.
           </h1>
@@ -159,14 +159,14 @@ const Background = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <p className="text-xl sm:text-2xl md:text-3xl leading-snug text-zinc-800 mb-8 md:mb-10 font-medium tracking-tight">
+              <p className="text-2xl md:text-3xl font-bold leading-snug text-zinc-800 max-w-2xl mb-6">
                 Information Systems student at Universitas Brawijaya with hands-on experience in Product Management, user research, and AI-augmented workflows.
               </p>
-              <div className="space-y-6 text-zinc-500 leading-relaxed text-base sm:text-lg">
-                <p>
+              <div className="max-w-xl">
+                <p className="text-base text-neutral-500 leading-relaxed mb-4">
                   I specialize in evidence-based product thinking — from conducting user research and defining problems, to scoping MVPs and writing requirements engineers can actually build to. Currently advancing through an intensive PM bootcamp at Harisenin.com.
                 </p>
-                <p>
+                <p className="text-base text-neutral-500 leading-relaxed">
                   My edge: I integrate AI tools into every stage of the PM workflow, and I bring enough technical depth to write ML-informed acceptance criteria — not just feature wishlists.
                 </p>
               </div>
