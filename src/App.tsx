@@ -1,100 +1,131 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import { motion } from "motion/react";
-import { 
-  ArrowRight, 
-  Check, 
-  Mail, 
-  MapPin, 
-  Send, 
-  Linkedin, 
-  Download,
-  ExternalLink,
-  Phone,
-  Layout,
-  Code,
-  Figma,
-  Cpu,
-  Zap,
-  Globe,
-  Briefcase,
-  Menu,
-  X
-} from "lucide-react";
 import { useState } from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import TravelWiseCase from "./pages/TravelWiseCase";
-import travelwiseCover from "./assets/travelwise-cover.svg";
+
+// ─── Icons (inline SVG to remove lucide dependency from this file) ────────────
+
+const IconArrow = () => (
+  <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+  </svg>
+);
+const IconCheck = ({ active }: { active: boolean }) => (
+  <svg className={`shrink-0 mt-0.5 ${active ? "text-emerald-500" : "text-zinc-300"}`} width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+    <polyline points="20 6 9 17 4 12" />
+  </svg>
+);
+const IconSend = () => (
+  <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+  </svg>
+);
+const IconMail = () => (
+  <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+  </svg>
+);
+const IconPhone = () => (
+  <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+  </svg>
+);
+const IconLocation = () => (
+  <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+    <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+  </svg>
+);
+const IconCpu = () => (
+  <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+    <rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/>
+    <path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/>
+  </svg>
+);
+const IconBrain = () => (
+  <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+    <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+  </svg>
+);
+const IconGlobe = () => (
+  <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+    <circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20" />
+  </svg>
+);
+const IconMenu = () => (
+  <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+  </svg>
+);
+const IconX = () => (
+  <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+  </svg>
+);
+
+// ─── Shared label style ────────────────────────────────────────────────────────
+
+const SectionLabel = ({ children }: { children: string }) => (
+  <p className="text-xs font-semibold tracking-[0.05em] uppercase text-zinc-500 mb-2">
+    {children}
+  </p>
+);
+
+// ─── Navbar ───────────────────────────────────────────────────────────────────
 
 const Navbar = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const navItems = ["About", "Projects", "Experience", "Skills", "Contact"];
+  const [isOpen, setIsOpen] = useState(false);
+  const links = [
+    { label: "About", href: "#about" },
+    { label: "Case Studies", href: "#projects" },
+    { label: "Experience", href: "#experience" },
+    { label: "Skills", href: "#skills" },
+    { label: "Contact", href: "#contact" },
+  ];
 
   return (
-    <nav className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-xl border-b border-zinc-100">
-      <div className="flex justify-between items-center max-w-7xl mx-auto px-6 md:px-8 py-4 md:py-6">
-        <div className="text-lg font-bold tracking-tighter text-zinc-900">
-          Nick Wilsan
-        </div>
-        
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-8 lg:gap-10">
-          {navItems.map((item) => (
-            <a 
-              key={item}
-              href={`#${item.toLowerCase()}`}
-              className="text-xs uppercase tracking-widest text-zinc-500 hover:text-zinc-900 transition-colors duration-300 font-medium"
-            >
-              {item}
+    <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-zinc-200">
+      <div className="flex justify-between items-center max-w-[1280px] mx-auto px-5 md:px-20 py-4">
+        <a href="#" className="text-xl font-bold tracking-tight text-zinc-900 hover:opacity-75 transition-opacity font-display">
+          PM Trainee Portfolio
+        </a>
+
+        {/* Desktop */}
+        <div className="hidden md:flex items-center gap-6">
+          {links.map((l) => (
+            <a key={l.label} href={l.href}
+              className="text-sm font-semibold text-zinc-600 hover:text-zinc-900 transition-colors">
+              {l.label}
             </a>
           ))}
-          <a 
-            href="https://drive.google.com/file/d/1D5LhKvryphWln2RgZ449tl2pWoVg8FXj/view?usp=drive_link"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-black text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-zinc-800 transition-all flex items-center gap-2"
-          >
-            Download CV <Download size={16} />
+          <a href="#contact"
+            className="ml-4 bg-zinc-900 text-white px-6 py-2 rounded-full text-sm font-semibold hover:bg-emerald-500 transition-colors">
+            Let's Build
           </a>
         </div>
 
-        {/* Mobile Menu Toggle Button */}
-        <button 
-          className="md:hidden p-2 -mr-2 text-zinc-900"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label="Toggle menu"
-        >
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        {/* Mobile toggle */}
+        <button onClick={() => setIsOpen(!isOpen)} className="md:hidden p-2 text-zinc-900">
+          {isOpen ? <IconX /> : <IconMenu />}
         </button>
       </div>
 
-      {/* Mobile Navigation Dropdown */}
-      {isMobileMenuOpen && (
-        <motion.div 
-          initial={{ opacity: 0, y: -10 }}
+      {/* Mobile menu */}
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
-          className="md:hidden absolute top-full left-0 w-full bg-white border-b border-zinc-100 py-6 px-6 shadow-xl shadow-black/5 flex flex-col gap-6"
+          className="md:hidden absolute top-full left-0 w-full bg-white border-b border-zinc-200 py-6 px-5 flex flex-col gap-5 shadow-sm"
         >
-          {navItems.map((item) => (
-            <a 
-              key={item}
-              href={`#${item.toLowerCase()}`}
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="text-sm uppercase tracking-widest text-zinc-600 hover:text-black font-medium"
-            >
-              {item}
+          {links.map((l) => (
+            <a key={l.label} href={l.href} onClick={() => setIsOpen(false)}
+              className="text-sm font-semibold text-zinc-600 hover:text-zinc-900 transition-colors">
+              {l.label}
             </a>
           ))}
-          <a 
-            href="https://drive.google.com/file/d/1D5LhKvryphWln2RgZ449tl2pWoVg8FXj/view?usp=drive_link"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-black text-white px-6 py-3.5 rounded-xl text-sm font-bold hover:bg-zinc-800 transition-all flex items-center justify-center gap-2 mt-2"
-          >
-            Download CV <Download size={16} />
+          <a href="#contact" onClick={() => setIsOpen(false)}
+            className="text-center bg-zinc-900 text-white px-6 py-3 rounded-full text-sm font-semibold hover:bg-emerald-500 transition-colors">
+            Let's Build
           </a>
         </motion.div>
       )}
@@ -102,306 +133,289 @@ const Navbar = () => {
   );
 };
 
-const Hero = () => {
-  return (
-    <section className="min-h-[100svh] flex flex-col justify-center px-6 md:px-8 pt-28 pb-16 max-w-7xl mx-auto overflow-hidden">
-      <div className="text-left">
-        <motion.div 
+// ─── Hero ─────────────────────────────────────────────────────────────────────
+
+const Hero = () => (
+  <section id="hero" className="max-w-[1280px] mx-auto px-5 md:px-20 pt-36 md:pt-44 pb-[120px] flex flex-col items-start gap-8">
+    <SectionLabel>PRODUCT MANAGEMENT TRAINEE AT HARISENIN.COM</SectionLabel>
+
+    <motion.h1
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      className="font-display text-[2.75rem] sm:text-[3.5rem] md:text-[4rem] lg:text-[4.5rem] font-extrabold leading-[1.1] tracking-[-0.02em] text-zinc-900 max-w-4xl"
+    >
+      Turning User Problems{" "}
+      <span className="text-zinc-300">into</span>{" "}
+      Product Decisions.
+    </motion.h1>
+
+    <motion.p
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, delay: 0.15, ease: "easeOut" }}
+      className="text-lg leading-7 text-zinc-600 max-w-2xl"
+    >
+      Information Systems student at Universitas Brawijaya with hands-on experience in Product Management,
+      user research, and AI-augmented workflows.
+    </motion.p>
+
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+      className="flex flex-wrap gap-4 mt-2"
+    >
+      <a href="#projects"
+        className="flex items-center gap-2 bg-zinc-900 text-white px-8 py-4 rounded-full text-base font-semibold hover:bg-emerald-500 transition-colors shadow-sm">
+        View Portfolio <IconArrow />
+      </a>
+      <a href="#contact"
+        className="flex items-center gap-2 bg-transparent border border-zinc-200 text-zinc-900 px-8 py-4 rounded-full text-base font-semibold hover:border-emerald-500 hover:text-emerald-500 transition-colors">
+        Start a Conversation
+      </a>
+    </motion.div>
+  </section>
+);
+
+// ─── Background ───────────────────────────────────────────────────────────────
+
+const Background = () => (
+  <section id="about" className="bg-slate-50 py-[120px] border-y border-zinc-200">
+    <div className="max-w-[1280px] mx-auto px-5 md:px-20 grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-6">
+      <div className="md:col-span-4">
+        <h2 className="font-display text-[2rem] md:text-[2.5rem] font-bold tracking-tight text-zinc-900 relative inline-block">
+          Background
+          <span className="absolute -bottom-2 left-0 w-12 h-[3px] bg-zinc-900 block" />
+        </h2>
+      </div>
+
+      <div className="md:col-span-8 flex flex-col gap-4">
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="max-w-4xl"
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="flex flex-col gap-4"
         >
-          <span className="text-xs uppercase tracking-[0.2em] md:tracking-[0.3em] text-zinc-400 mb-4 md:mb-6 block font-bold leading-relaxed">
-            Product Management Trainee at Harisenin.com
-          </span>
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black leading-tight tracking-tight max-w-5xl mb-8 md:mb-10 text-black">
-            Turning User Problems <br className="hidden md:block" />
-            <span className="text-zinc-300 md:inline block">into</span> Product Decisions.
-          </h1>
-          <p className="text-lg md:text-xl max-w-2xl text-zinc-500 leading-relaxed mb-10 md:mb-12">
-            Information Systems student at Universitas Brawijaya with hands-on experience in Product Management, user research, and AI-augmented workflows.
+          <h3 className="font-display text-[1.5rem] font-semibold leading-8 text-zinc-900">
+            Information Systems student at Universitas Brawijaya with hands-on experience in
+            Product Management, user research, and AI-augmented workflows.
+          </h3>
+          <p className="text-base leading-6 text-zinc-600">
+            I specialize in evidence-based product thinking — from conducting user research and
+            defining problems, to scoping MVPs and writing requirements engineers can actually
+            build to. Currently advancing through an intensive PM bootcamp at Harisenin.com.
           </p>
-          <div className="flex flex-col sm:flex-row flex-wrap gap-4 sm:gap-6 items-start sm:items-center">
-            <a 
-              href="#projects"
-              className="w-full sm:w-auto justify-center bg-black text-white px-8 md:px-10 py-4 md:py-5 rounded-full font-bold tracking-tight flex items-center gap-3 hover:bg-zinc-800 transition-all hover:scale-105 active:scale-95 text-sm md:text-base"
-            >
-              View Portfolio
-              <ArrowRight size={20} />
-            </a>
-            <a 
-              href="#contact"
-              className="w-full sm:w-auto text-center text-black font-bold text-base md:text-lg hover:underline decoration-2 underline-offset-8 transition-all py-3"
-            >
-              Start a Conversation
-            </a>
-          </div>
+          <p className="text-base leading-6 text-zinc-600">
+            My edge: I integrate AI tools into every stage of the PM workflow, and I bring enough
+            technical depth to write ML-informed acceptance criteria — not just feature wishlists.
+          </p>
         </motion.div>
       </div>
-    </section>
-  );
-};
+    </div>
+  </section>
+);
 
-const Background = () => {
-  return (
-    <section id="about" className="py-20 md:py-32 bg-zinc-50 px-6 md:px-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12">
-          <div className="col-span-1 md:col-span-4">
-            <h2 className="text-3xl font-bold tracking-tight mb-4 md:mb-6">Background</h2>
-            <div className="w-16 h-1 bg-black"></div>
-          </div>
-          <div className="col-span-1 md:col-span-8 lg:col-span-7 lg:col-start-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <p className="text-2xl md:text-3xl font-bold leading-snug text-zinc-800 max-w-2xl mb-6">
-                Information Systems student at Universitas Brawijaya with hands-on experience in Product Management, user research, and AI-augmented workflows.
-              </p>
-              <div className="max-w-xl">
-                <p className="text-base text-neutral-500 leading-relaxed mb-4">
-                  I specialize in evidence-based product thinking — from conducting user research and defining problems, to scoping MVPs and writing requirements engineers can actually build to. Currently advancing through an intensive PM bootcamp at Harisenin.com.
-                </p>
-                <p className="text-base text-neutral-500 leading-relaxed">
-                  My edge: I integrate AI tools into every stage of the PM workflow, and I bring enough technical depth to write ML-informed acceptance criteria — not just feature wishlists.
-                </p>
-              </div>
-            </motion.div>
-          </div>
-        </div>
+// ─── TravelWise card thumbnail ────────────────────────────────────────────────
+
+const TravelWiseThumbnail = () => (
+  <div className="h-64 bg-zinc-900 relative overflow-hidden flex items-center justify-center p-6">
+    <div className="w-full h-full border border-white/10 rounded-lg p-4 flex flex-col gap-2 relative">
+      {/* Route labels */}
+      <div className="flex justify-between items-center text-white/40 text-[10px] font-semibold tracking-[0.15em] uppercase">
+        <span>SURABAYA</span>
+        <span>DESTINATION</span>
       </div>
-    </section>
-  );
-};
-
-const Projects = () => {
-  const projects: {
-    title: string;
-    description: string;
-    year: string;
-    image: string | null;
-    large: boolean;
-    link?: string;
-  }[] = [
-    {
-      title: "TravelWise AI",
-      description: "AI-powered multi-modal travel aggregator — PRD, market research, RICE prioritization, and go-to-market strategy for Harisenin.com bootcamp.",
-      year: "2026",
-      image: travelwiseCover,
-      large: true,
-      link: "/case/travelwise"
-    },
-    {
-      title: "ReStylo Application",
-      description: "Academic project focusing on business case design, market trend analysis, and strategic KPI definition.",
-      year: "2026",
-      image: null,
-      large: false
-    }
-  ];
-
-  return (
-    <section id="projects" className="py-20 md:py-32 px-6 md:px-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-16 md:mb-24">
-          <span className="text-xs uppercase tracking-widest text-zinc-400 mb-4 block font-bold">Case Studies</span>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter">Selected Works</h2>
-        </div>
-        
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 md:gap-12">
-          {projects.map((project, index) => {
-            const cardContent = (
-              <>
-                <div className="bg-zinc-100 rounded-[2rem] overflow-hidden mb-6 relative aspect-[4/3] lg:aspect-auto lg:h-[550px] border border-zinc-100">
-                  {project.image ? (
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-zinc-900 flex items-center justify-center relative overflow-hidden">
-                      <div className="absolute inset-0 opacity-[0.07]">
-                        <div className="absolute top-10 left-10 w-40 h-40 border-2 border-white rounded-full" />
-                        <div className="absolute bottom-10 right-10 w-56 h-56 border-2 border-white rounded-full" />
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-28 h-28 bg-white rounded-3xl rotate-12" />
-                        <div className="absolute top-1/4 right-1/4 w-20 h-20 border-2 border-white rounded-full" />
-                      </div>
-                      <p className="text-8xl font-black text-white/10 tracking-tighter select-none z-10">RS</p>
-                    </div>
-                  )}
-                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center backdrop-blur-sm">
-                    <span className="bg-white text-black px-6 md:px-8 py-3 rounded-full font-bold flex items-center gap-3 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 text-sm md:text-base">
-                      {project.link ? "View Case Study" : "Coming Soon"} <ExternalLink size={18} />
-                    </span>
-                  </div>
-                </div>
-                <div className="flex flex-col sm:flex-row justify-between items-start gap-4 px-2">
-                  <div>
-                    <h3 className="text-2xl md:text-3xl font-bold mb-3 group-hover:text-zinc-500 transition-colors tracking-tight">{project.title}</h3>
-                    <p className="text-zinc-500 max-w-lg text-base md:text-lg leading-relaxed">{project.description}</p>
-                  </div>
-                  <span className="text-xs md:text-sm font-bold text-black bg-zinc-100 px-4 py-2 rounded-full whitespace-nowrap">{project.year}</span>
-                </div>
-              </>
-            );
-
-            return (
-              <motion.div 
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className={`col-span-1 ${project.large ? 'lg:col-span-8' : 'lg:col-span-4'} group cursor-pointer`}
-              >
-                {project.link ? (
-                  <Link to={project.link} className="block w-full h-full">
-                    {cardContent}
-                  </Link>
-                ) : (
-                  <div className="block w-full h-full">
-                    {cardContent}
-                  </div>
-                )}
-              </motion.div>
-            );
-          })}
-        </div>
+      {/* Arc SVG */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none px-6">
+        <svg width="100%" height="60" viewBox="0 0 400 60" preserveAspectRatio="none">
+          <path d="M 30 50 Q 200 5 370 30" fill="none" stroke="#10B981" strokeDasharray="5 4" strokeWidth="2" />
+          <circle cx="30" cy="50" r="4" fill="#10B981" />
+          <circle cx="370" cy="30" r="4" fill="#10B981" />
+        </svg>
       </div>
-    </section>
-  );
-};
+      {/* Stats */}
+      <div className="mt-auto grid grid-cols-3 gap-2 text-white">
+        {[
+          { num: "96.7%", label: "DON'T BUY FROM FIRST APP" },
+          { num: "100%",  label: "BUYER'S REMORSE" },
+          { num: "~2M",   label: "EST. TRANSACTIONS/YR" },
+        ].map((s) => (
+          <div key={s.num}>
+            <div className="font-display text-xl font-bold">{s.num}</div>
+            <div className="text-[8px] text-white/40 uppercase tracking-wide leading-tight mt-0.5">{s.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+);
+
+// ─── Projects (Selected Works) ────────────────────────────────────────────────
+
+const Projects = () => (
+  <section id="projects" className="py-[120px] max-w-[1280px] mx-auto px-5 md:px-20">
+    <div className="mb-10">
+      <SectionLabel>CASE STUDIES</SectionLabel>
+      <h2 className="font-display text-[2.75rem] md:text-[4rem] font-extrabold tracking-[-0.02em] text-zinc-900">
+        Selected Works
+      </h2>
+    </div>
+
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* TravelWise AI */}
+      <motion.article
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="bg-slate-50 rounded-xl border border-zinc-200 overflow-hidden hover:shadow-lg transition-shadow duration-300 group"
+      >
+        <Link to="/case/travelwise" className="block">
+          <TravelWiseThumbnail />
+          <div className="p-6 flex flex-col gap-4">
+            <div className="flex justify-between items-start">
+              <h3 className="font-display text-[1.5rem] font-semibold text-zinc-900 group-hover:text-emerald-500 transition-colors">
+                TravelWise AI
+              </h3>
+              <span className="text-xs font-semibold tracking-widest uppercase bg-white text-zinc-900 border border-zinc-200 px-2 py-1 rounded shrink-0 ml-2">
+                2026
+              </span>
+            </div>
+            <p className="text-base leading-6 text-zinc-600">
+              AI-powered multi-modal travel aggregator — PRD, market research, RICE prioritization,
+              and go-to-market strategy for Harisenin.com bootcamp.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {["Product Manager", "Research", "PRD", "AI"].map((t) => (
+                <span key={t} className="text-[11px] font-semibold tracking-wider uppercase bg-zinc-100 text-zinc-700 border border-zinc-200 px-3 py-1 rounded-full">
+                  {t}
+                </span>
+              ))}
+            </div>
+          </div>
+        </Link>
+      </motion.article>
+
+      {/* ReStylo */}
+      <motion.article
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.1 }}
+        className="bg-slate-50 rounded-xl border border-zinc-200 overflow-hidden hover:shadow-lg transition-shadow duration-300 group"
+      >
+        <div className="h-64 bg-zinc-900 relative overflow-hidden flex items-center justify-center">
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute top-1/4 left-1/4 w-32 h-32 border border-white rounded-full" />
+            <div className="absolute bottom-1/4 right-1/4 w-48 h-48 border border-white rounded-full" />
+          </div>
+          <p className="font-display text-6xl font-bold text-white/20 select-none">RS</p>
+        </div>
+        <div className="p-6 flex flex-col gap-4">
+          <div className="flex justify-between items-start">
+            <h3 className="font-display text-[1.5rem] font-semibold text-zinc-900 group-hover:text-emerald-500 transition-colors">
+              ReStylo Application
+            </h3>
+            <span className="text-xs font-semibold tracking-widest uppercase bg-white text-zinc-900 border border-zinc-200 px-2 py-1 rounded shrink-0 ml-2">
+              2026
+            </span>
+          </div>
+          <p className="text-base leading-6 text-zinc-600">
+            Academic project focusing on business case design, market trend analysis, and strategic KPI definition.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {["Business Case", "Analysis", "Strategy"].map((t) => (
+              <span key={t} className="text-[11px] font-semibold tracking-wider uppercase bg-zinc-100 text-zinc-700 border border-zinc-200 px-3 py-1 rounded-full">
+                {t}
+              </span>
+            ))}
+          </div>
+        </div>
+      </motion.article>
+    </div>
+  </section>
+);
+
+// ─── Experience & Education ───────────────────────────────────────────────────
 
 const Experience = () => {
   const experiences = [
     {
-      type: "EDUCATION",
+      period: "AUG 2024 — PRESENT",
       role: "Bachelor of Information Systems",
       company: "Universitas Brawijaya",
-      period: "Aug 2024 — Present",
-      achievements: [
+      active: true,
+      items: [
         "Current GPA: 3.69 / 4.00 (Expected Graduation: Dec 2027)",
-        "Relevant Courseworks: System Analysis and Design, Requirements Engineering, User Interface Design, Programming & Algorithm."
-      ]
+        "Relevant Courseworks: System Analysis and Design, Requirements Engineering, User Interface Design, Programming & Algorithm.",
+      ],
     },
     {
-      type: "EXPERIENCE",
+      period: "FEB 2026 — PRESENT",
       role: "Product Manager Trainee",
       company: "Harisenin.com",
-      period: "Feb 2026 — Present",
-      achievements: [
+      active: false,
+      items: [
         "Developed comprehensive PRDs across multiple bootcamp missions, detailing product vision, user personas, and technical requirements.",
         "Formulated go-to-market strategies and structured business models to ensure market fit and clear monetization paths.",
-        "Conducted market research and competitor analysis to identify feature gaps and propose data-driven improvements."
-      ]
+        "Conducted market research and competitor analysis to identify feature gaps and propose data-driven improvements.",
+      ],
     },
     {
-      type: "EXPERIENCE",
+      period: "JAN 2022 — FEB 2023",
       role: "Logistics Staff",
       company: "University Event Committees",
-      period: "Jan 2022 — Feb 2023",
-      achievements: [
+      active: false,
+      items: [
         "Coordinated logistics, equipment, and resource management for 2 major university events.",
-        "Collaborated with cross-functional committee divisions to optimize resource allocation and troubleshoot bottlenecks."
-      ]
-    }
+        "Collaborated with cross-functional committee divisions to optimize resource allocation and troubleshoot bottlenecks.",
+      ],
+    },
   ];
 
   return (
-    <section id="experience" className="py-20 md:py-32 bg-zinc-50 px-6 md:px-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-          <div className="col-span-1 lg:col-span-4">
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tighter mb-8 lg:mb-12 lg:sticky lg:top-32">Experience & <br className="hidden lg:block"/>Education</h2>
-          </div>
-          <div className="col-span-1 lg:col-span-8">
-            <div className="space-y-16 md:space-y-24 relative before:content-[''] before:absolute before:left-[1px] md:before:left-[1px] before:top-2 before:bottom-0 before:w-[1px] before:bg-zinc-200">
-              {experiences.map((exp, index) => (
-                <motion.div 
-                  key={index}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="pl-8 md:pl-16 relative"
-                >
-                  <div className={`absolute left-0 top-2 w-[4px] h-8 md:h-12 ${exp.type === 'EDUCATION' ? 'bg-black' : 'bg-zinc-300'}`}></div>
-                  <span className="text-[10px] md:text-xs font-bold tracking-widest text-zinc-400 block mb-2 md:mb-3 uppercase">{exp.period}</span>
-                  <h3 className="text-2xl md:text-3xl font-bold mb-2 tracking-tight">{exp.role}</h3>
-                  <p className="text-lg md:text-xl text-zinc-800 font-semibold mb-6 md:mb-8">{exp.company}</p>
-                  <ul className="space-y-4 md:space-y-5">
-                    {exp.achievements.map((achievement, i) => (
-                      <li key={i} className="flex items-start gap-3 md:gap-4 text-zinc-500 leading-relaxed text-base md:text-lg">
-                        <Check size={20} className="mt-1 flex-shrink-0 text-black" />
-                        {achievement}
-                      </li>
-                    ))}
-                  </ul>
-                </motion.div>
-              ))}
-            </div>
-          </div>
+    <section id="experience" className="bg-slate-50 py-[120px] border-y border-zinc-200">
+      <div className="max-w-[1280px] mx-auto px-5 md:px-20 grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-6">
+        <div className="md:col-span-4">
+          <h2 className="font-display text-[2rem] md:text-[2.5rem] font-bold leading-tight text-zinc-900 md:sticky md:top-32">
+            Experience &<br className="hidden md:block" /> Education
+          </h2>
         </div>
-      </div>
-    </section>
-  );
-};
 
-const Skills = () => {
-  const skillGroups = [
-    {
-      title: "Technical Skills",
-      icon: <Cpu size={24} />,
-      skills: ["Product Management", "PRD Writing", "Business Case Development", "Market Research", "Agile Methodology", "Wireframing & Prototyping (Figma, Adobe XD)", "Basic Programming (HTML, CSS, JS)"]
-    },
-    {
-      title: "Soft Skills",
-      icon: <Zap size={24} />,
-      skills: ["Analytical Thinking", "Problem Solving", "Cross-functional Communication", "Time Management", "Adaptability", "Detail-Oriented"]
-    },
-    {
-      title: "Languages",
-      icon: <Globe size={24} />,
-      skills: ["Indonesian (Native)", "English (Intermediate/Advanced)"]
-    }
-  ];
-
-  return (
-    <section id="skills" className="py-20 md:py-32 px-6 md:px-8 bg-white">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-16 md:mb-24">
-          <span className="text-xs uppercase tracking-widest text-zinc-400 mb-4 block font-bold">Expertise</span>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter">Skills & Tools</h2>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-12">
-          {skillGroups.map((group, index) => (
-            <motion.div 
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+        <div className="md:col-span-8 relative border-l border-zinc-200 pl-8 md:pl-12 ml-2 md:ml-0 flex flex-col gap-12">
+          {experiences.map((exp, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, x: -16 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="space-y-6 md:space-y-8"
+              transition={{ duration: 0.6, delay: i * 0.1 }}
+              className="relative"
             >
-              <div className="flex items-center gap-4 text-black">
-                <div className="w-12 h-12 rounded-2xl bg-zinc-100 flex items-center justify-center flex-shrink-0">
-                  {group.icon}
-                </div>
-                <h3 className="text-xl md:text-2xl font-bold tracking-tight">{group.title}</h3>
-              </div>
-              <div className="flex flex-wrap gap-2 md:gap-3">
-                {group.skills.map((skill, i) => (
-                  <span key={i} className="px-3 py-1.5 md:px-4 md:py-2 bg-zinc-50 text-zinc-600 rounded-lg text-xs md:text-sm font-medium border border-zinc-100 hover:border-black transition-colors">
-                    {skill}
-                  </span>
+              {/* Timeline dot */}
+              <div className={`absolute -left-[41px] md:-left-[57px] top-1.5 w-4 h-4 rounded-full z-10 ${
+                exp.active
+                  ? "bg-white border-2 border-zinc-900"
+                  : "bg-white border-2 border-zinc-300"
+              }`} />
+
+              <p className="text-xs font-semibold tracking-[0.05em] uppercase text-zinc-500 mb-2">
+                {exp.period}
+              </p>
+              <h3 className="font-display text-[1.5rem] font-semibold text-zinc-900 mb-1">
+                {exp.role}
+              </h3>
+              <p className="text-lg font-semibold text-zinc-900 mb-4">{exp.company}</p>
+              <ul className="flex flex-col gap-3">
+                {exp.items.map((item, j) => (
+                  <li key={j} className="flex items-start gap-2 text-base text-zinc-600">
+                    <IconCheck active={exp.active} />
+                    {item}
+                  </li>
                 ))}
-              </div>
+              </ul>
             </motion.div>
           ))}
         </div>
@@ -410,139 +424,181 @@ const Skills = () => {
   );
 };
 
-const Contact = () => {
+// ─── Skills ───────────────────────────────────────────────────────────────────
+
+const Skills = () => {
+  const groups = [
+    {
+      icon: <IconCpu />,
+      title: "Technical Skills",
+      skills: [
+        "Product Management", "PRD Writing", "Business Case Development",
+        "Market Research", "Agile Methodology",
+        "Wireframing & Prototyping (Figma, Adobe XD)", "Basic Programming (HTML, CSS, JS)",
+      ],
+    },
+    {
+      icon: <IconBrain />,
+      title: "Soft Skills",
+      skills: [
+        "Analytical Thinking", "Problem Solving", "Cross-functional Communication",
+        "Time Management", "Adaptability", "Detail-Oriented",
+      ],
+    },
+    {
+      icon: <IconGlobe />,
+      title: "Languages",
+      skills: ["Indonesian (Native)", "English (Intermediate/Advanced)"],
+    },
+  ];
+
   return (
-    <section id="contact" className="py-20 md:py-32 px-6 md:px-8 bg-zinc-50">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-          <div className="col-span-1 lg:col-span-5">
-            <h2 className="text-5xl sm:text-6xl md:text-7xl font-bold leading-[1] md:leading-[0.85] tracking-tighter mb-8 md:mb-10">
-              Let’s build <br className="hidden sm:block"/>the vision.
-            </h2>
-            <p className="text-lg md:text-xl text-zinc-500 mb-10 md:mb-12 max-w-md leading-relaxed">
-              Open for product internships, strategic collaborations, or discussions about the intersection of IS and PM.
-            </p>
-            <div className="space-y-6 md:space-y-8">
-              <div className="flex items-center gap-4 md:gap-6 group cursor-pointer">
-                <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-white flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all shadow-sm flex-shrink-0">
-                  <Mail size={20} className="md:w-6 md:h-6" />
-                </div>
-                <div>
-                  <p className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-zinc-400 mb-1">Email</p>
-                  <span className="text-base md:text-lg font-bold text-zinc-800 break-all">wilsannick55@gmail.com</span>
-                </div>
+    <section id="skills" className="py-[120px] max-w-[1280px] mx-auto px-5 md:px-20">
+      <div className="mb-12">
+        <SectionLabel>EXPERTISE</SectionLabel>
+        <h2 className="font-display text-[2.75rem] md:text-[4rem] font-extrabold tracking-[-0.02em] text-zinc-900">
+          Skills & Tools
+        </h2>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6">
+        {groups.map((group, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: i * 0.1 }}
+          >
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 rounded-lg bg-slate-50 border border-zinc-200 flex items-center justify-center text-zinc-900">
+                {group.icon}
               </div>
-              <div className="flex items-center gap-4 md:gap-6 group cursor-pointer">
-                <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-white flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all shadow-sm flex-shrink-0">
-                  <Phone size={20} className="md:w-6 md:h-6" />
-                </div>
-                <div>
-                  <p className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-zinc-400 mb-1">Phone</p>
-                  <span className="text-base md:text-lg font-bold text-zinc-800">081249730818</span>
-                </div>
-              </div>
-              <div className="flex items-center gap-4 md:gap-6 group cursor-pointer">
-                <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-white flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all shadow-sm flex-shrink-0">
-                  <MapPin size={20} className="md:w-6 md:h-6" />
-                </div>
-                <div>
-                  <p className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-zinc-400 mb-1">Location</p>
-                  <span className="text-base md:text-lg font-bold text-zinc-800">Malang / Jakarta, Indonesia</span>
-                </div>
-              </div>
+              <h3 className="font-display text-[1.5rem] font-semibold text-zinc-900">{group.title}</h3>
             </div>
-          </div>
-          
-          <div className="col-span-1 lg:col-span-7">
-            <form action="https://formspree.io/f/xvzvbqgw" method="POST" className="space-y-6 md:space-y-8 bg-white p-6 sm:p-10 md:p-14 rounded-3xl md:rounded-[2.5rem] shadow-xl shadow-zinc-200/50 border border-zinc-100">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
-                <div className="space-y-2 md:space-y-3">
-                  <label className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-zinc-400 ml-1">Name</label>
-                  <input 
-                    type="text" 
-                    name="name"
-                    required
-                    placeholder="John Doe"
-                    className="w-full bg-zinc-50 border-none rounded-xl md:rounded-2xl p-4 md:p-5 focus:bg-white focus:ring-2 focus:ring-black transition-all outline-none text-base md:text-lg"
-                  />
+            <div className="flex flex-wrap gap-3">
+              {group.skills.map((s) => (
+                <span key={s} className="text-xs font-semibold tracking-wide uppercase bg-slate-50 text-zinc-900 border border-zinc-200 px-4 py-2 rounded">
+                  {s}
+                </span>
+              ))}
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+// ─── Contact ──────────────────────────────────────────────────────────────────
+
+const Contact = () => {
+  const contactItems = [
+    { icon: <IconMail />,     label: "EMAIL",    value: "wilsannick55@gmail.com" },
+    { icon: <IconPhone />,    label: "PHONE",    value: "081249730818" },
+    { icon: <IconLocation />, label: "LOCATION", value: "Malang / Jakarta, Indonesia" },
+  ];
+
+  return (
+    <section id="contact" className="bg-slate-50 py-[120px] border-t border-zinc-200">
+      <div className="max-w-[1280px] mx-auto px-5 md:px-20 grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div>
+          <h2 className="font-display text-[2.75rem] md:text-[4rem] font-extrabold tracking-[-0.02em] text-zinc-900 mb-6">
+            Let's build
+          </h2>
+          <p className="text-lg leading-7 text-zinc-600 mb-12 max-w-sm">
+            Open for product internships, strategic collaborations, or discussions about the
+            intersection of IS and PM.
+          </p>
+          <div className="flex flex-col gap-6">
+            {contactItems.map((item) => (
+              <div key={item.label} className="flex items-center gap-4 group">
+                <div className="w-12 h-12 rounded-full bg-white border border-zinc-200 flex items-center justify-center text-zinc-900 group-hover:border-emerald-500 group-hover:text-emerald-500 transition-colors shrink-0">
+                  {item.icon}
                 </div>
-                <div className="space-y-2 md:space-y-3">
-                  <label className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-zinc-400 ml-1">Email</label>
-                  <input 
-                    type="email" 
-                    name="email"
-                    required
-                    placeholder="john@example.com"
-                    className="w-full bg-zinc-50 border-none rounded-xl md:rounded-2xl p-4 md:p-5 focus:bg-white focus:ring-2 focus:ring-black transition-all outline-none text-base md:text-lg"
-                  />
+                <div>
+                  <p className="text-xs font-semibold tracking-[0.05em] uppercase text-zinc-500 mb-0.5">
+                    {item.label}
+                  </p>
+                  <p className="text-lg font-semibold text-zinc-900">{item.value}</p>
                 </div>
               </div>
-              <div className="space-y-2 md:space-y-3">
-                <label className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-zinc-400 ml-1">Message</label>
-                <textarea 
-                  name="message"
-                  required
-                  placeholder="Tell me about your project..."
-                  rows={4}
-                  className="w-full bg-zinc-50 border-none rounded-xl md:rounded-2xl p-4 md:p-5 focus:bg-white focus:ring-2 focus:ring-black transition-all outline-none resize-none text-base md:text-lg"
-                ></textarea>
-              </div>
-              <button 
-                type="submit"
-                className="w-full bg-black text-white py-4 md:py-6 rounded-xl md:rounded-2xl font-bold tracking-widest uppercase hover:bg-zinc-800 transition-all flex items-center justify-center gap-3 md:gap-4 text-sm md:text-lg hover:scale-[1.02] active:scale-95 shadow-lg shadow-black/10"
-              >
-                Send Message
-                <Send size={18} className="md:w-5 md:h-5" />
-              </button>
-            </form>
+            ))}
           </div>
+        </div>
+
+        {/* Form */}
+        <div className="bg-white rounded-2xl p-8 shadow-sm border border-zinc-200 self-start">
+          <form action="https://formspree.io/f/xvzvbqgw" method="POST" className="flex flex-col gap-6">
+            <div>
+              <label className="block text-xs font-semibold tracking-[0.05em] uppercase text-zinc-500 mb-2">
+                MESSAGE
+              </label>
+              <textarea
+                name="message"
+                required
+                placeholder="Tell me about your project..."
+                rows={5}
+                className="w-full bg-slate-50 border border-zinc-200 rounded-lg p-4 text-base text-zinc-900 placeholder:text-zinc-400 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition-all resize-none"
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full bg-zinc-900 text-white py-4 rounded-lg text-base font-semibold flex items-center justify-center gap-2 hover:bg-emerald-500 transition-colors tracking-wide"
+            >
+              SEND MESSAGE <IconSend />
+            </button>
+          </form>
         </div>
       </div>
     </section>
   );
 };
 
-const Footer = () => {
-  return (
-    <footer className="w-full py-12 md:py-20 bg-white border-t border-zinc-100">
-      <div className="max-w-7xl mx-auto px-6 md:px-8">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6 md:gap-12">
-          <div className="text-xl font-bold text-black tracking-tighter">
-            NICK WILSAN
-          </div>
-          <p className="text-[10px] md:text-xs uppercase tracking-widest text-zinc-400 font-bold text-center">
-            © 2024 Nick Wilsan Portfolio.
-          </p>
-          <div className="flex flex-wrap justify-center gap-6 md:gap-10">
-            <a href="https://linkedin.com/in/nick-wilsan" target="_blank" className="text-zinc-400 hover:text-black transition-all flex items-center gap-2 md:gap-3 text-[10px] md:text-xs uppercase tracking-widest font-bold">
-              <Linkedin size={18} className="md:w-5 md:h-5"/> LinkedIn
-            </a>
-            <a href="https://behance.net/oryzasativaporto" target="_blank" className="text-zinc-400 hover:text-black transition-all flex items-center gap-2 md:gap-3 text-[10px] md:text-xs uppercase tracking-widest font-bold">
-              <Layout size={18} className="md:w-5 md:h-5"/> Behance
-            </a>
-            <a href="mailto:wilsannick55@gmail.com" className="text-zinc-400 hover:text-black transition-all flex items-center gap-2 md:gap-3 text-[10px] md:text-xs uppercase tracking-widest font-bold">
-              <Mail size={18} className="md:w-5 md:h-5"/> Email
-            </a>
-          </div>
-        </div>
+// ─── Footer ───────────────────────────────────────────────────────────────────
+
+const Footer = () => (
+  <footer className="bg-slate-50 border-t border-zinc-200 py-6">
+    <div className="flex flex-col md:flex-row justify-between items-center max-w-[1280px] mx-auto px-5 md:px-20 gap-4">
+      <p className="font-display text-xl font-bold text-zinc-900 tracking-tight">
+        NICK WILSAN
+      </p>
+      <p className="text-xs font-semibold tracking-[0.05em] uppercase text-zinc-500 text-center">
+        © 2024 Product Management Portfolio. Built with strategic focus.
+      </p>
+      <div className="flex gap-6">
+        {[
+          { href: "https://linkedin.com/in/nick-wilsan", label: "LinkedIn" },
+          { href: "https://behance.net/oryzasativaporto", label: "Behance" },
+          { href: "mailto:wilsannick55@gmail.com", label: "Email" },
+        ].map((l) => (
+          <a key={l.label} href={l.href} target="_blank" rel="noopener noreferrer"
+            className="text-xs font-semibold tracking-[0.05em] uppercase text-zinc-500 hover:text-emerald-500 transition-colors">
+            {l.label}
+          </a>
+        ))}
       </div>
-    </footer>
-  );
-};
+    </div>
+  </footer>
+);
+
+// ─── App ──────────────────────────────────────────────────────────────────────
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={
-          <div className="bg-white font-sans selection:bg-black selection:text-white">
+          <div className="bg-white text-zinc-900 selection:bg-emerald-500 selection:text-white">
             <Navbar />
-            <Hero />
-            <Background />
-            <Projects />
-            <Experience />
-            <Skills />
-            <Contact />
+            <main>
+              <Hero />
+              <Background />
+              <Projects />
+              <Experience />
+              <Skills />
+              <Contact />
+            </main>
             <Footer />
           </div>
         } />
