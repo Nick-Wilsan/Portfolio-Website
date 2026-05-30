@@ -27,7 +27,7 @@ import {
 import { useState } from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import TravelWiseCase from "./pages/TravelWiseCase";
-import travelwiseCover from "./assets/travelwise-cover.png";
+import travelwiseCover from "./assets/travelwise-cover.svg";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -188,8 +188,8 @@ const Projects = () => {
     link?: string;
   }[] = [
     {
-      title: "Harisenin.com PM Trainee Projects",
-      description: "Driving product growth through comprehensive PRDs, Go-to-market strategies, and in-depth Market Research.",
+      title: "TravelWise AI",
+      description: "AI-powered multi-modal travel aggregator — PRD, market research, RICE prioritization, and go-to-market strategy for Harisenin.com bootcamp.",
       year: "2026",
       image: travelwiseCover,
       large: true,
