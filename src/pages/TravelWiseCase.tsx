@@ -3,6 +3,7 @@
 // See INTEGRATION.md for routing setup instructions.
 
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
