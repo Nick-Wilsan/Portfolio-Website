@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import TravelWiseCase from "./pages/TravelWiseCase";
 
@@ -73,26 +73,59 @@ const SectionLabel = ({ children }: { children: string }) => (
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [active, setActive] = useState("hero");
+
   const links = [
-    { label: "About",        href: "#about" },
-    { label: "Case Studies", href: "#projects" },
-    { label: "Experience",   href: "#experience" },
-    { label: "Skills",       href: "#skills" },
-    { label: "Contact",      href: "#contact" },
+    { label: "About",        href: "#about",      id: "about" },
+    { label: "Case Studies", href: "#projects",   id: "projects" },
+    { label: "Experience",   href: "#experience", id: "experience" },
+    { label: "Skills",       href: "#skills",     id: "skills" },
+    { label: "Contact",      href: "#contact",    id: "contact" },
   ];
+
+  useEffect(() => {
+    const sectionIds = ["hero", ...links.map((l) => l.id)];
+    const onScroll = () => {
+      const scrollY = window.scrollY + 100;
+      for (let i = sectionIds.length - 1; i >= 0; i--) {
+        const el = document.getElementById(sectionIds[i]);
+        if (el && el.offsetTop <= scrollY) {
+          setActive(sectionIds[i]);
+          break;
+        }
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-zinc-200">
       <div className="flex justify-between items-center max-w-[1440px] mx-auto px-5 md:px-14 py-4">
         <a href="#" className="text-xl font-bold tracking-tight text-zinc-900 hover:opacity-75 transition-opacity font-display">
-          PM Trainee Portfolio
+          Nick Wilsan
         </a>
-        <div className="hidden md:flex items-center gap-6">
-          {links.map((l) => (
-            <a key={l.label} href={l.href} className="text-sm font-semibold text-zinc-600 hover:text-zinc-900 transition-colors">
-              {l.label}
-            </a>
-          ))}
-          <a href="#contact" className="ml-4 bg-zinc-900 text-white px-6 py-2 rounded-full text-sm font-semibold hover:bg-emerald-500 transition-colors">
+        <div className="hidden md:flex items-center gap-1">
+          {links.map((l) => {
+            const isActive = active === l.id;
+            return (
+              <a
+                key={l.label}
+                href={l.href}
+                className={`relative px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
+                  isActive
+                    ? "text-zinc-900 bg-zinc-100"
+                    : "text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50"
+                }`}
+              >
+                {l.label}
+                {isActive && (
+                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-emerald-500" />
+                )}
+              </a>
+            );
+          })}
+          <a href="#contact" className="ml-3 bg-zinc-900 text-white px-6 py-2 rounded-full text-sm font-semibold hover:bg-emerald-500 transition-colors">
             Let's Build
           </a>
         </div>
@@ -104,16 +137,24 @@ const Navbar = () => {
         <motion.div
           initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
-          className="md:hidden absolute top-full left-0 w-full bg-white border-b border-zinc-200 py-6 px-5 flex flex-col gap-5 shadow-sm"
+          className="md:hidden absolute top-full left-0 w-full bg-white border-b border-zinc-200 py-6 px-5 flex flex-col gap-2 shadow-sm"
         >
-          {links.map((l) => (
-            <a key={l.label} href={l.href} onClick={() => setIsOpen(false)}
-              className="text-sm font-semibold text-zinc-600 hover:text-zinc-900 transition-colors">
-              {l.label}
-            </a>
-          ))}
+          {links.map((l) => {
+            const isActive = active === l.id;
+            return (
+              <a key={l.label} href={l.href} onClick={() => setIsOpen(false)}
+                className={`px-4 py-3 rounded-xl text-sm font-semibold transition-colors ${
+                  isActive
+                    ? "text-zinc-900 bg-zinc-100"
+                    : "text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50"
+                }`}>
+                {isActive && <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 mr-2 mb-0.5" />}
+                {l.label}
+              </a>
+            );
+          })}
           <a href="#contact" onClick={() => setIsOpen(false)}
-            className="text-center bg-zinc-900 text-white px-6 py-3 rounded-full text-sm font-semibold hover:bg-emerald-500 transition-colors">
+            className="mt-2 text-center bg-zinc-900 text-white px-6 py-3 rounded-full text-sm font-semibold hover:bg-emerald-500 transition-colors">
             Let's Build
           </a>
         </motion.div>
