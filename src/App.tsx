@@ -116,11 +116,11 @@ const Hero = () => {
             Product Management Trainee at Harisenin.com
           </span>
           <h1 className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-bold leading-[1.1] md:leading-[0.85] tracking-tighter mb-8 md:mb-10 text-black">
-            Bridging Systems <br className="hidden md:block" /> 
-            <span className="text-zinc-300 md:inline block">&</span> Product Strategy.
+            Turning User Problems <br className="hidden md:block" />
+            <span className="text-zinc-300 md:inline block">into</span> Product Decisions.
           </h1>
           <p className="text-lg sm:text-xl md:text-2xl max-w-3xl text-zinc-500 leading-relaxed mb-10 md:mb-12">
-            Information Systems Student at Universitas Brawijaya. Synthesizing technical architecture with human-centric product management to build the next generation of digital solutions.
+            Information Systems student at Universitas Brawijaya with hands-on experience in Product Management, user research, and AI-augmented workflows.
           </p>
           <div className="flex flex-col sm:flex-row flex-wrap gap-4 sm:gap-6 items-start sm:items-center">
             <a 
@@ -160,14 +160,14 @@ const Background = () => {
               transition={{ duration: 0.6 }}
             >
               <p className="text-xl sm:text-2xl md:text-3xl leading-snug text-zinc-800 mb-8 md:mb-10 font-medium tracking-tight">
-                I am a detail-oriented Information Systems student at Universitas Brawijaya with a strong foundation in Product Management, UI/UX Design, and Software Engineering.
+                Information Systems student at Universitas Brawijaya with hands-on experience in Product Management, user research, and AI-augmented workflows.
               </p>
               <div className="space-y-6 text-zinc-500 leading-relaxed text-base sm:text-lg">
                 <p>
-                  I specialize in crafting PRDs, developing business cases, and translating complex user needs into actionable technical requirements. Currently advancing my skills through an intensive bootcamp at Harisenin.com.
+                  I specialize in evidence-based product thinking — from conducting user research and defining problems, to scoping MVPs and writing requirements engineers can actually build to. Currently advancing through an intensive PM bootcamp at Harisenin.com.
                 </p>
                 <p>
-                  My unique edge lies in the blend of technical fluency—proficient in HTML, CSS, and JavaScript—and a keen eye for design using Figma. This duality allows me to bridge the gap between engineering possibilities and user-centric solutions.
+                  My edge: I integrate AI tools into every stage of the PM workflow, and I bring enough technical depth to write ML-informed acceptance criteria — not just feature wishlists.
                 </p>
               </div>
             </motion.div>
