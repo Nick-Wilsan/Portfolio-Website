@@ -179,7 +179,14 @@ const Background = () => {
 };
 
 const Projects = () => {
-  const projects = [
+  const projects: {
+    title: string;
+    description: string;
+    year: string;
+    image: string | null;
+    large: boolean;
+    link?: string;
+  }[] = [
     {
       title: "Harisenin.com PM Trainee Projects",
       description: "Driving product growth through comprehensive PRDs, Go-to-market strategies, and in-depth Market Research.",
@@ -192,7 +199,7 @@ const Projects = () => {
       title: "ReStylo Application",
       description: "Academic project focusing on business case design, market trend analysis, and strategic KPI definition.",
       year: "2026",
-      image: "https://picsum.photos/seed/restylo/800/800?grayscale",
+      image: null,
       large: false
     }
   ];
@@ -210,12 +217,23 @@ const Projects = () => {
             const cardContent = (
               <>
                 <div className="bg-zinc-100 rounded-[2rem] overflow-hidden mb-6 relative aspect-[4/3] lg:aspect-auto lg:h-[550px] border border-zinc-100">
-                  <img 
-                    src={project.image} 
-                    alt={project.title} 
-                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
-                    referrerPolicy="no-referrer"
-                  />
+                  {project.image ? (
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-zinc-900 flex items-center justify-center relative overflow-hidden">
+                      <div className="absolute inset-0 opacity-[0.07]">
+                        <div className="absolute top-10 left-10 w-40 h-40 border-2 border-white rounded-full" />
+                        <div className="absolute bottom-10 right-10 w-56 h-56 border-2 border-white rounded-full" />
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-28 h-28 bg-white rounded-3xl rotate-12" />
+                        <div className="absolute top-1/4 right-1/4 w-20 h-20 border-2 border-white rounded-full" />
+                      </div>
+                      <p className="text-8xl font-black text-white/10 tracking-tighter select-none z-10">RS</p>
+                    </div>
+                  )}
                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center backdrop-blur-sm">
                     <span className="bg-white text-black px-6 md:px-8 py-3 rounded-full font-bold flex items-center gap-3 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 text-sm md:text-base">
                       {project.link ? "View Case Study" : "Coming Soon"} <ExternalLink size={18} />
