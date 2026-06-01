@@ -723,40 +723,66 @@ const Projects = () => (
 
 // ─── Experience ────────────────────────────────────────────────────────────────
 
+const experiences = [
+  {
+    period: "AUG 2024 — PRESENT",
+    role: "Bachelor of Information Systems",
+    company: "Universitas Brawijaya",
+    active: true,
+    items: [
+      "Current GPA: 3.69 / 4.00 (Expected Graduation: Dec 2027)",
+      "Relevant Courseworks: System Analysis and Design, Requirements Engineering, User Interface Design, Programming & Algorithm.",
+    ],
+  },
+  {
+    period: "FEB 2026 — PRESENT",
+    role: "Product Manager Trainee",
+    company: "Harisenin.com",
+    active: false,
+    items: [
+      "Developed comprehensive PRDs across multiple bootcamp missions, detailing product vision, user personas, and technical requirements.",
+      "Formulated go-to-market strategies and structured business models to ensure market fit and clear monetization paths.",
+      "Conducted market research and competitor analysis to identify feature gaps and propose data-driven improvements.",
+    ],
+  },
+  {
+    period: "JAN 2022 — FEB 2023",
+    role: "Logistics Staff",
+    company: "University Event Committees",
+    active: false,
+    items: [
+      "Coordinated logistics, equipment, and resource management for 2 major university events.",
+      "Collaborated with cross-functional committee divisions to optimize resource allocation and troubleshoot bottlenecks.",
+    ],
+  },
+];
+
 const Experience = () => {
-  const experiences = [
-    {
-      period: "AUG 2024 — PRESENT",
-      role: "Bachelor of Information Systems",
-      company: "Universitas Brawijaya",
-      active: true,
-      items: [
-        "Current GPA: 3.69 / 4.00 (Expected Graduation: Dec 2027)",
-        "Relevant Courseworks: System Analysis and Design, Requirements Engineering, User Interface Design, Programming & Algorithm.",
-      ],
-    },
-    {
-      period: "FEB 2026 — PRESENT",
-      role: "Product Manager Trainee",
-      company: "Harisenin.com",
-      active: false,
-      items: [
-        "Developed comprehensive PRDs across multiple bootcamp missions, detailing product vision, user personas, and technical requirements.",
-        "Formulated go-to-market strategies and structured business models to ensure market fit and clear monetization paths.",
-        "Conducted market research and competitor analysis to identify feature gaps and propose data-driven improvements.",
-      ],
-    },
-    {
-      period: "JAN 2022 — FEB 2023",
-      role: "Logistics Staff",
-      company: "University Event Committees",
-      active: false,
-      items: [
-        "Coordinated logistics, equipment, and resource management for 2 major university events.",
-        "Collaborated with cross-functional committee divisions to optimize resource allocation and troubleshoot bottlenecks.",
-      ],
-    },
-  ];
+  const [activeIndex, setActiveIndex] = useState(0);
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const lineRef = useRef<HTMLDivElement>(null);
+
+  // Scroll-driven line fill
+  const { scrollYProgress } = useScroll({
+    target: lineRef,
+    offset: ["start 80%", "end 25%"],
+  });
+  const lineGrow = useSpring(scrollYProgress, { stiffness: 80, damping: 25 });
+
+  // Track which item is in the reading zone
+  useEffect(() => {
+    const observers = experiences.map((_, i) => {
+      const el = itemRefs.current[i];
+      if (!el) return null;
+      const obs = new IntersectionObserver(
+        ([entry]) => { if (entry.isIntersecting) setActiveIndex(i); },
+        { rootMargin: "-20% 0px -55% 0px" }
+      );
+      obs.observe(el);
+      return obs;
+    });
+    return () => observers.forEach((obs) => obs?.disconnect());
+  }, []);
 
   return (
     <section id="experience" className="bg-slate-50 py-[120px] border-y border-zinc-200">
@@ -772,28 +798,64 @@ const Experience = () => {
             Experience &<br className="hidden md:block" /> Education
           </h2>
         </motion.div>
-        <div className="md:col-span-8 relative border-l border-zinc-200 pl-8 md:pl-12 ml-2 md:ml-0 flex flex-col gap-12">
+
+        {/* Timeline column */}
+        <div
+          ref={lineRef}
+          className="md:col-span-8 relative pl-8 md:pl-12 ml-2 md:ml-0 flex flex-col gap-12"
+        >
+          {/* Static base line */}
+          <div className="absolute left-0 top-0 bottom-0 w-px bg-zinc-200" />
+          {/* Scroll-driven emerald fill */}
+          <motion.div
+            className="absolute left-0 top-0 bottom-0 w-[2px] bg-emerald-500 origin-top"
+            style={{ scaleY: lineGrow }}
+          />
+
           {experiences.map((exp, i) => (
             <motion.div
               key={i}
+              ref={(el) => { itemRefs.current[i] = el; }}
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.12 }}
               className="relative"
             >
-              {/* Timeline dot */}
-              <div className={`absolute -left-[41px] md:-left-[57px] top-1.5 w-4 h-4 rounded-full z-10 flex items-center justify-center ${
-                exp.active ? "bg-emerald-500" : "bg-white border-2 border-zinc-300"
-              }`}>
-                {exp.active && (
+              {/* Timeline dot — moves with scroll */}
+              <motion.div
+                className="absolute -left-[41px] md:-left-[57px] top-1.5 w-4 h-4 rounded-full z-10 flex items-center justify-center"
+                animate={{
+                  backgroundColor: activeIndex === i ? "#10b981" : "#ffffff",
+                  borderColor: activeIndex === i ? "#10b981" : "#d4d4d8",
+                  borderWidth: activeIndex === i ? 0 : 2,
+                }}
+                transition={{ duration: 0.35, ease: "easeInOut" }}
+                style={{ border: "2px solid" }}
+              >
+                {/* Green pulse — follows active dot */}
+                {activeIndex === i && (
                   <motion.div
+                    key={`pulse-${i}`}
                     className="absolute inset-0 rounded-full bg-emerald-400"
-                    animate={{ scale: [1, 2], opacity: [0.6, 0] }}
-                    transition={{ duration: 1.8, repeat: Infinity, ease: "easeOut" }}
+                    animate={{ scale: [1, 2.2], opacity: [0.7, 0] }}
+                    transition={{ duration: 1.6, repeat: Infinity, ease: "easeOut" }}
                   />
                 )}
-              </div>
+                {/* Subtle zinc ring on inactive dots */}
+                {activeIndex !== i && (
+                  <motion.div
+                    className="absolute inset-0 rounded-full border-2 border-zinc-400"
+                    animate={{ scale: [1, 1.9], opacity: [0.4, 0] }}
+                    transition={{
+                      duration: 2.4,
+                      repeat: Infinity,
+                      ease: "easeOut",
+                      delay: i * 0.8,
+                    }}
+                  />
+                )}
+              </motion.div>
 
               <p className="text-xs font-semibold tracking-[0.05em] uppercase text-zinc-500 mb-2">
                 {exp.period}
