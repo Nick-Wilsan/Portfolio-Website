@@ -28,5 +28,5 @@ If you want to run this project on your local machine, follow these steps:
 
 1. **Clone the repository:**
    ```bash
-   git clone [https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPOSITORY_NAME.git](https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPOSITORY_NAME.git)
+   git clone https://github.com/Nick-Wilsan/Portfolio-Website.git
    ```
