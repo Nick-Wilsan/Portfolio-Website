@@ -300,7 +300,7 @@ export default function TravelWiseCase() {
   }, []);
 
   const statsRef = useRef(null);
-  const statsInView = useInView(statsRef, { once: true, margin: "-60px" });
+  const statsInView = useInView(statsRef, { once: true, margin: "-20px" });
 
   const [activeSection, setActiveSection] = useState("context");
 
@@ -487,6 +487,53 @@ export default function TravelWiseCase() {
 
           {/* ── MAIN SECTIONS ── */}
           <div className="min-w-0">
+
+            {/* ── MOBILE SECTION NAV ── */}
+            <div className="lg:hidden sticky top-[57px] md:top-[73px] z-40 bg-white/90 backdrop-blur-md border-b border-zinc-100 -mx-6 md:-mx-8 mb-8">
+              <div className="overflow-x-auto px-6 md:px-8 py-3 scrollbar-none">
+                <div className="flex gap-2 w-max">
+                  {sidebarSections.map((section) => {
+                    const isActive = activeSection === section.id;
+                    return (
+                      <a key={section.id} href={"#" + section.id} className="flex-shrink-0">
+                        <motion.div
+                          animate={{
+                            backgroundColor: isActive ? "#18181b" : "#f4f4f5",
+                            color: isActive ? "#ffffff" : "#71717a",
+                          }}
+                          whileTap={{ scale: 0.95 }}
+                          transition={{ duration: 0.2 }}
+                          className="relative px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5"
+                        >
+                          <span className={`font-mono text-[9px] ${isActive ? "text-emerald-400" : "text-zinc-400"}`}>
+                            {section.num}
+                          </span>
+                          {section.label}
+                          {isActive && (
+                            <motion.span
+                              layoutId="mobileNavDot"
+                              className="absolute inset-0 rounded-full border border-emerald-500/30"
+                              transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                            />
+                          )}
+                        </motion.div>
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+              {/* Mobile progress bar */}
+              <div className="h-[2px] bg-zinc-100">
+                <motion.div
+                  className="h-full bg-emerald-500"
+                  animate={{
+                    width: `${((sidebarSections.findIndex(s => s.id === activeSection) + 1) / sidebarSections.length) * 100}%`,
+                  }}
+                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                />
+              </div>
+            </div>
+
             {/* ── 01 CONTEXT & PROBLEM ── */}
             <div id="context" className="scroll-mt-32"></div>
             <SectionLabel number="01" title="Context & Problem" />
@@ -514,6 +561,7 @@ export default function TravelWiseCase() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   whileHover={{ scale: 1.04, borderColor: "#10b981" }}
+                  whileTap={{ scale: 0.97 }}
                   className="p-5 rounded-xl border border-zinc-200 bg-zinc-50 transition-colors cursor-default"
                 >
                   <p className="text-3xl md:text-4xl font-black tracking-tight text-zinc-900">
@@ -661,6 +709,7 @@ export default function TravelWiseCase() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   whileHover={{ y: -4, boxShadow: "0 8px 24px rgba(239,68,68,0.12)" }}
+                  whileTap={{ scale: 0.97 }}
                   className="p-3 rounded-lg border-t-2 border-red-400 bg-red-50 cursor-default"
                 >
                   <p className="text-xs font-bold text-zinc-800 mb-1">{s.phase}</p>

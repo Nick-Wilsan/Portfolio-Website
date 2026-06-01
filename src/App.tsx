@@ -423,12 +423,12 @@ const Hero = () => {
           </motion.div>
         </div>
 
-        {/* ── Right: Visual cards (desktop only) ── */}
+        {/* ── Right: Visual cards ── */}
         <motion.div
-          initial={{ opacity: 0, x: 32 }}
-          animate={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.3, ease: "easeOut" }}
-          className="hidden lg:flex flex-col gap-4"
+          className="flex flex-col gap-4"
         >
           {/* Stats grid */}
           <div ref={statsRef} className="bg-slate-50 rounded-2xl border border-zinc-200 p-6">
@@ -626,9 +626,10 @@ const Projects = () => (
       <motion.article
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        viewport={{ once: true, margin: "-40px" }}
         transition={{ duration: 0.6 }}
         whileHover={{ y: -6 }}
+        whileTap={{ scale: 0.98 }}
         className="bg-slate-50 rounded-xl border border-zinc-200 overflow-hidden shadow-sm hover:shadow-xl hover:border-emerald-200 transition-all duration-300 group"
       >
         <Link to="/case/travelwise" className="block">
@@ -652,6 +653,7 @@ const Projects = () => (
                 <motion.span
                   key={t}
                   whileHover={{ scale: 1.07 }}
+                  whileTap={{ scale: 0.95 }}
                   className="text-[11px] font-semibold tracking-wider uppercase bg-zinc-100 text-zinc-700 border border-zinc-200 px-3 py-1 rounded-full cursor-default"
                 >
                   {t}
@@ -666,9 +668,10 @@ const Projects = () => (
       <motion.article
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        viewport={{ once: true, margin: "-40px" }}
         transition={{ duration: 0.6, delay: 0.12 }}
         whileHover={{ y: -6 }}
+        whileTap={{ scale: 0.98 }}
         className="bg-slate-50 rounded-xl border border-zinc-200 overflow-hidden shadow-sm hover:shadow-xl hover:border-emerald-200 transition-all duration-300 group"
       >
         <div className="h-64 bg-zinc-900 relative overflow-hidden flex items-center justify-center">
@@ -919,6 +922,7 @@ const Skills = () => {
                     show: { opacity: 1, scale: 1 },
                   }}
                   whileHover={{ scale: 1.08 }}
+                  whileTap={{ scale: 0.94 }}
                   className={`text-[11px] font-semibold tracking-wide uppercase px-3 py-1.5 rounded-full border cursor-default ${group.color}`}
                 >
                   {s}
@@ -966,6 +970,7 @@ const Contact = () => (
             >
               <motion.div
                 whileHover={{ scale: 1.12, backgroundColor: "#10b981", borderColor: "#10b981", color: "#fff" }}
+                whileTap={{ scale: 0.92 }}
                 transition={{ type: "spring", stiffness: 400, damping: 20 }}
                 className="w-12 h-12 rounded-full bg-white border border-zinc-200 flex items-center justify-center text-zinc-900 shrink-0 transition-colors"
               >
