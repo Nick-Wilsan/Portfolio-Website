@@ -3,12 +3,61 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --font-display: "Plus Jakarta Sans", sans-serif;
-  --font-body: "Inter", sans-serif;
+  --font-display: "Newsreader", Georgia, serif;
+  --font-body: "Plus Jakarta Sans", sans-serif;
+
+  /* Semantic colors — resolve to CSS vars that switch with .dark */
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-raised: var(--raised);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+}
+
+:root {
+  /* Light: crisp near-white + near-black, single moss accent for pop */
+  --paper: #f6f6f3;
+  --surface: #fbfbf9;
+  --raised: #ffffff;
+  --ink: #121210;
+  --muted: #494844;
+  --faint: #8a887f;
+  --line: #e2e0d8;
+  --accent: #2f7a4e;
+  --accent-ink: #235e3b;
+  --accent-soft: #e2f0e8;
+}
+
+.dark {
+  /* Dark: near-black + near-white, single moss accent for pop */
+  --paper: #0c0c0b;
+  --surface: #151513;
+  --raised: #1c1b18;
+  --ink: #f6f5f0;
+  --muted: #b1afa6;
+  --faint: #6e6c64;
+  --line: #292823;
+  --accent: #5fce8f;
+  --accent-ink: #82dca8;
+  --accent-soft: #15271d;
+}
+
+html {
+  background: var(--paper);
+}
+html.dark {
+  color-scheme: dark;
 }
 
 body {
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-body);
+  background: var(--paper);
+  color: var(--ink);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
