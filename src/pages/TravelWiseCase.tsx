@@ -97,10 +97,12 @@ function SectionLabel({ number, title }: { number: string; title: string }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
-      className="mb-8 flex items-baseline gap-3"
+      className="relative flex items-end gap-4 md:gap-6 mb-10 md:mb-12"
     >
-      <span className="text-sm font-mono tracking-widest text-accent">{number}</span>
-      <h2 className="font-display text-3xl md:text-[2.75rem] font-medium tracking-tight text-ink">
+      <span className="font-display text-[clamp(3.2rem,7vw,5.5rem)] leading-[0.8] text-accent/15 select-none -mb-1">
+        {number}
+      </span>
+      <h2 className="font-display text-3xl md:text-[2.75rem] font-medium tracking-tight text-ink pb-1">
         {title}
       </h2>
     </motion.div>
@@ -192,7 +194,7 @@ export default function TravelWiseCase() {
       <ScrollProgressBar />
       {/* ── NAVBAR ── */}
       <nav className="fixed top-0 w-full z-50 bg-paper/85 backdrop-blur-xl border-b border-line">
-        <div className="flex justify-between items-center max-w-6xl mx-auto px-6 md:px-8 py-4 md:py-5">
+        <div className="flex justify-between items-center max-w-[1320px] mx-auto px-6 md:px-8 py-4 md:py-5">
           <Link to="/" className="font-display text-lg font-medium tracking-tight text-ink">
             Nick Wilsan
           </Link>
@@ -212,7 +214,7 @@ export default function TravelWiseCase() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="max-w-6xl mx-auto px-6 md:px-8 py-16 md:py-24"
+          className="max-w-[1320px] mx-auto px-6 md:px-8 py-16 md:py-24"
         >
           <div className="grid lg:grid-cols-[1.4fr_1fr] gap-12 lg:gap-16 items-center">
             <div>
@@ -280,7 +282,7 @@ export default function TravelWiseCase() {
       </div>
 
       {/* ── CONTENT ── */}
-      <div className="max-w-6xl mx-auto px-6 md:px-8 py-16 md:py-20">
+      <div className="max-w-[1320px] mx-auto px-6 md:px-8 py-16 md:py-20">
         <div className="lg:grid lg:grid-cols-[200px_1fr] xl:grid-cols-[240px_1fr] lg:gap-12 xl:gap-16 items-start">
           {/* ── SIDEBAR NAVIGATION ── */}
           <aside className="hidden lg:block sticky top-32 self-start">
@@ -802,7 +804,7 @@ export default function TravelWiseCase() {
 
       {/* ── FOOTER ── */}
       <footer className="bg-surface border-t border-line py-8">
-        <div className="flex flex-col md:flex-row justify-between items-center max-w-6xl mx-auto px-6 md:px-8 gap-4">
+        <div className="flex flex-col md:flex-row justify-between items-center max-w-[1320px] mx-auto px-6 md:px-8 gap-4">
           <p className="font-display text-lg font-medium text-ink tracking-tight">Nick Wilsan</p>
           <p className="text-xs text-faint text-center">
             © 2026 · Product Management Portfolio
