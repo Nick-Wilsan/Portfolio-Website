@@ -1,5 +1,6 @@
 node_modules
 .agents
+.mcp.json
 .claude
 contoh_portfolio
 skills-lock.json

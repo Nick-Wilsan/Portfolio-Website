@@ -122,17 +122,17 @@ function CountUp({ value, active }: { value: string; active: boolean }) {
 // ─── Section heading (quiet numbered index) ─────────────────────────────────────
 
 const SectionHead = ({ num, title }: { num: string; title: string }) => (
-  <div className="flex items-baseline gap-4 mb-10">
+  <div className="relative flex items-end gap-5 md:gap-8 mb-14 md:mb-20">
     <motion.span
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.6, delay: 0.2 }}
-      className="font-mono text-xs text-accent pt-1.5"
+      transition={{ duration: 0.7 }}
+      className="font-display text-[clamp(4.5rem,11vw,9rem)] leading-[0.8] text-accent/15 select-none -mb-2"
     >
       {num}
     </motion.span>
-    <h2 className="font-display text-[clamp(2.4rem,5.5vw,4.5rem)] font-medium leading-[0.95] tracking-[-0.02em] text-ink">
+    <h2 className="font-display text-[clamp(2.4rem,5.5vw,4.5rem)] font-medium leading-[0.95] tracking-[-0.02em] text-ink pb-2">
       <MaskReveal>{title}</MaskReveal>
     </h2>
   </div>
@@ -727,46 +727,66 @@ const Experience = () => {
       <div className="max-w-[1440px] mx-auto px-5 md:px-10">
         <SectionHead num="03" title="experience & education" />
 
-        <div
-          ref={lineRef}
-          className="relative pl-8 md:pl-10 flex flex-col gap-14 max-w-3xl"
-        >
-          <div className="absolute left-0 top-1 bottom-1 w-px bg-line" />
-          <motion.div
-            className="absolute left-0 top-1 bottom-1 w-px bg-accent origin-top"
-            style={{ scaleY: lineGrow }}
-          />
-
-          {experiences.map((exp, i) => (
+        <div className="grid lg:grid-cols-12 gap-x-16 gap-y-14">
+          <div
+            ref={lineRef}
+            className="relative pl-8 md:pl-10 flex flex-col gap-14 lg:col-span-7"
+          >
+            <div className="absolute left-0 top-1 bottom-1 w-px bg-line" />
             <motion.div
-              key={i}
-              ref={(el) => { itemRefs.current[i] = el; }}
+              className="absolute left-0 top-1 bottom-1 w-px bg-accent origin-top"
+              style={{ scaleY: lineGrow }}
+            />
+
+            {experiences.map((exp, i) => (
+              <motion.div
+                key={i}
+                ref={(el) => { itemRefs.current[i] = el; }}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+                className="relative"
+              >
+                <motion.div
+                  className="absolute -left-[37px] md:-left-[45px] top-1.5 w-3 h-3 rounded-full border-2"
+                  animate={{
+                    backgroundColor: activeIndex === i ? "var(--accent)" : "var(--paper)",
+                    borderColor: activeIndex === i ? "var(--accent)" : "var(--faint)",
+                  }}
+                  transition={{ duration: 0.3 }}
+                />
+                <p className="text-xs uppercase tracking-[0.12em] text-faint mb-2">{exp.period}</p>
+                <h3 className="font-display text-[1.4rem] font-medium text-ink">{exp.role}</h3>
+                <p className="text-sm text-accent mb-4">{exp.company}</p>
+                <ul className="flex flex-col gap-2.5">
+                  {exp.items.map((item, j) => (
+                    <li key={j} className="text-[0.95rem] leading-relaxed text-muted">
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            ))}
+          </div>
+
+          <aside className="lg:col-span-5">
+            <motion.div
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
-              className="relative"
+              transition={{ duration: 0.5 }}
+              className="lg:sticky lg:top-36 border-t border-line pt-8 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10"
             >
-              <motion.div
-                className="absolute -left-[37px] md:-left-[45px] top-1.5 w-3 h-3 rounded-full border-2"
-                animate={{
-                  backgroundColor: activeIndex === i ? "var(--accent)" : "var(--paper)",
-                  borderColor: activeIndex === i ? "var(--accent)" : "var(--faint)",
-                }}
-                transition={{ duration: 0.3 }}
-              />
-              <p className="text-xs uppercase tracking-[0.12em] text-faint mb-2">{exp.period}</p>
-              <h3 className="font-display text-[1.4rem] font-medium text-ink">{exp.role}</h3>
-              <p className="text-sm text-accent mb-4">{exp.company}</p>
-              <ul className="flex flex-col gap-2.5">
-                {exp.items.map((item, j) => (
-                  <li key={j} className="text-[0.95rem] leading-relaxed text-muted">
-                    {item}
-                  </li>
-                ))}
-              </ul>
+              <p className="font-display text-[clamp(1.5rem,2.2vw,1.9rem)] leading-snug text-ink">
+                Three years of coursework and one bootcamp later, the thread hasn&apos;t changed: get the problem right before anyone writes a line of code.
+              </p>
+              <div className="mt-8 flex flex-col gap-1">
+                <span className="text-xs uppercase tracking-[0.14em] text-faint">currently</span>
+                <span className="text-sm text-muted">PM Trainee at Harisenin.com, finishing a degree in Information Systems</span>
+              </div>
             </motion.div>
-          ))}
+          </aside>
         </div>
       </div>
     </section>
@@ -809,28 +829,47 @@ const Skills = () => (
     <div className="max-w-[1440px] mx-auto px-5 md:px-10">
       <SectionHead num="04" title="skills & tools" />
 
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-y-12 gap-x-10">
-        {skillSet.map((group, i) => (
-          <motion.div
-            key={group.title}
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: i * 0.1 }}
-            className={i === 0 ? "md:col-span-6" : "md:col-span-3"}
-          >
-            <h3 className="text-xs uppercase tracking-[0.14em] text-faint pb-4 mb-5 border-b border-line">
-              {group.title}
-            </h3>
-            <ul className="flex flex-col gap-3">
-              {group.skills.map((s) => (
-                <li key={s} className="text-[0.95rem] text-ink">
-                  {s}
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-        ))}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-14">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          <h3 className="text-xs uppercase tracking-[0.14em] text-faint pb-4 mb-5 border-b border-line">
+            {skillSet[0].title}
+          </h3>
+          <ul className="flex flex-col gap-3">
+            {skillSet[0].skills.map((s) => (
+              <li key={s} className="text-[0.95rem] text-ink">
+                {s}
+              </li>
+            ))}
+          </ul>
+        </motion.div>
+
+        <div className="flex flex-col gap-14">
+          {skillSet.slice(1).map((group, i) => (
+            <motion.div
+              key={group.title}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: (i + 1) * 0.1 }}
+            >
+              <h3 className="text-xs uppercase tracking-[0.14em] text-faint pb-4 mb-5 border-b border-line">
+                {group.title}
+              </h3>
+              <ul className="flex flex-col gap-3">
+                {group.skills.map((s) => (
+                  <li key={s} className="text-[0.95rem] text-ink">
+                    {s}
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </div>
   </section>
