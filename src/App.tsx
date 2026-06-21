@@ -1,7 +1,7 @@
 import { motion, useScroll, useSpring, useInView, useReducedMotion, useTransform } from "motion/react";
-import { useState, useEffect, useRef, Fragment, type ReactNode } from "react";
+import { useState, useEffect, useRef, Fragment, type ReactNode, type FormEvent } from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import { ArrowUpRight, ArrowRight, Mail, Phone, MapPin, Menu, X, Sun, Moon } from "lucide-react";
+import { ArrowUpRight, ArrowRight, Mail, Phone, MapPin, Menu, X, Sun, Moon, Check, AlertCircle } from "lucide-react";
 import TravelWiseCase from "./pages/TravelWiseCase";
 
 // ─── Scroll Progress Bar ───────────────────────────────────────────────────────
@@ -258,8 +258,9 @@ const heroFacts = [
 const Hero = () => (
   <section
     id="hero"
-    className="max-w-[1440px] mx-auto px-5 md:px-10 min-h-[100dvh] flex flex-col justify-center pt-28 pb-16"
+    className="max-w-[1440px] mx-auto px-5 md:px-10 min-h-[100dvh] flex flex-col justify-center pt-28 pb-16 lg:flex-row lg:items-center lg:gap-16"
   >
+    <div className="lg:flex-1">
     <div className="max-w-5xl">
       <motion.p
         initial={{ opacity: 0, y: 8 }}
@@ -270,7 +271,7 @@ const Hero = () => (
         product manager · information systems
       </motion.p>
 
-      <h1 className="font-display text-[clamp(3rem,8vw,7rem)] font-medium leading-[0.96] tracking-[-0.03em] text-ink">
+      <h1 className="font-display text-[clamp(2.75rem,7vw,6rem)] font-medium leading-[0.96] tracking-[-0.03em] text-ink">
         <MaskReveal load>
           I turn messy user problems into product decisions worth{" "}
           <span className="italic text-accent">defending</span>.
@@ -324,6 +325,23 @@ const Hero = () => (
         </motion.div>
       ))}
     </div>
+    </div>
+
+    {/* Margin annotation — quiet counterweight to the wide right column on large desktops */}
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8, delay: 0.6 }}
+      className="hidden lg:flex lg:flex-col lg:items-center lg:gap-4 lg:shrink-0 lg:self-stretch lg:py-4"
+    >
+      <span className="text-[0.7rem] uppercase tracking-[0.2em] text-faint [writing-mode:vertical-rl]">
+        case file · nº 01
+      </span>
+      <span className="flex-1 w-px bg-line" />
+      <span className="text-[0.7rem] uppercase tracking-[0.2em] text-faint [writing-mode:vertical-rl]">
+        malang, id
+      </span>
+    </motion.div>
   </section>
 );
 
@@ -759,7 +777,7 @@ const Experience = () => {
                 <p className="text-xs uppercase tracking-[0.12em] text-faint mb-2">{exp.period}</p>
                 <h3 className="font-display text-[1.4rem] font-medium text-ink">{exp.role}</h3>
                 <p className="text-sm text-accent mb-4">{exp.company}</p>
-                <ul className="flex flex-col gap-2.5">
+                <ul className="flex flex-col gap-2.5 max-w-lg">
                   {exp.items.map((item, j) => (
                     <li key={j} className="text-[0.95rem] leading-relaxed text-muted">
                       {item}
@@ -883,77 +901,138 @@ const contactItems = [
   { icon: <MapPin size={18} strokeWidth={1.75} />, label: "based in", value: "Malang / Jakarta, Indonesia", href: null },
 ];
 
-const Contact = () => (
-  <section id="contact" className="bg-surface py-24 md:py-32">
-    <div className="max-w-[1440px] mx-auto px-5 md:px-10">
-      <SectionHead num="05" title="contact" />
+type FormStatus = "idle" | "sending" | "success" | "error";
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 items-start">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <p className="font-display text-[1.7rem] md:text-[2.2rem] font-medium leading-snug tracking-tight text-ink max-w-md">
-            If you're hiring for product, or just want to think through a problem
-            together, I'm around.
-          </p>
-          <div className="flex flex-col gap-5 mt-10">
-            {contactItems.map((item) => {
-              const inner = (
-                <>
-                  <span className="text-accent shrink-0">{item.icon}</span>
-                  <span>
-                    <span className="block text-xs uppercase tracking-[0.12em] text-faint">{item.label}</span>
-                    <span className="block text-base text-ink">{item.value}</span>
-                  </span>
-                </>
-              );
-              return item.href ? (
-                <a key={item.label} href={item.href} className="flex items-center gap-4 group">
-                  <span className="group-hover:text-accent transition-colors flex items-center gap-4">{inner}</span>
-                </a>
-              ) : (
-                <div key={item.label} className="flex items-center gap-4">{inner}</div>
-              );
-            })}
-          </div>
-        </motion.div>
+const Contact = () => {
+  const [status, setStatus] = useState<FormStatus>("idle");
 
-        <motion.form
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          action="https://formspree.io/f/xvzvbqgw"
-          method="POST"
-          className="flex flex-col gap-5"
-        >
-          <div>
-            <label className="block text-xs uppercase tracking-[0.12em] text-faint mb-2">
-              message
-            </label>
-            <textarea
-              name="message"
-              required
-              placeholder="What's on your mind?"
-              rows={6}
-              className="w-full bg-raised border border-line rounded-lg p-4 text-base text-ink placeholder:text-faint focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-all resize-none"
-            />
-          </div>
-          <button
-            type="submit"
-            className="group inline-flex items-center justify-center gap-2 bg-ink text-paper py-3.5 rounded-lg text-sm font-medium hover:bg-accent transition-colors"
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    setStatus("sending");
+    try {
+      const res = await fetch(form.action, {
+        method: "POST",
+        body: new FormData(form),
+        headers: { Accept: "application/json" },
+      });
+      if (res.ok) {
+        setStatus("success");
+        form.reset();
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  return (
+    <section id="contact" className="bg-surface py-24 md:py-32">
+      <div className="max-w-[1440px] mx-auto px-5 md:px-10">
+        <SectionHead num="05" title="contact" />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 items-start">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
           >
-            Send message
-            <ArrowRight size={16} strokeWidth={2} className="group-hover:translate-x-0.5 transition-transform" />
-          </button>
-        </motion.form>
+            <p className="font-display text-[1.7rem] md:text-[2.2rem] font-medium leading-snug tracking-tight text-ink max-w-md">
+              If you're hiring for product, or just want to think through a problem
+              together, I'm around.
+            </p>
+            <div className="flex flex-col gap-5 mt-10">
+              {contactItems.map((item) => {
+                const inner = (
+                  <>
+                    <span className="text-accent shrink-0">{item.icon}</span>
+                    <span>
+                      <span className="block text-xs uppercase tracking-[0.12em] text-faint">{item.label}</span>
+                      <span className="block text-base text-ink">{item.value}</span>
+                    </span>
+                  </>
+                );
+                return item.href ? (
+                  <a key={item.label} href={item.href} className="flex items-center gap-4 group">
+                    <span className="group-hover:text-accent transition-colors flex items-center gap-4">{inner}</span>
+                  </a>
+                ) : (
+                  <div key={item.label} className="flex items-center gap-4">{inner}</div>
+                );
+              })}
+            </div>
+          </motion.div>
+
+          <motion.form
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            action="https://formspree.io/f/xvzvbqgw"
+            method="POST"
+            onSubmit={handleSubmit}
+            className="flex flex-col gap-5"
+          >
+            <div>
+              <label htmlFor="message" className="block text-xs uppercase tracking-[0.12em] text-faint mb-2">
+                message
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                required
+                disabled={status === "sending" || status === "success"}
+                placeholder="What's on your mind?"
+                rows={6}
+                className="w-full bg-raised border border-line rounded-lg p-4 text-base text-ink placeholder:text-faint focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-all resize-none disabled:opacity-60"
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={status === "sending" || status === "success"}
+              className="group inline-flex items-center justify-center gap-2 bg-ink text-paper py-3.5 rounded-lg text-sm font-medium hover:bg-accent transition-colors disabled:opacity-70 disabled:hover:bg-ink"
+            >
+              {status === "sending" ? "Sending..." : status === "success" ? "Sent" : "Send message"}
+              {status === "success" ? (
+                <Check size={16} strokeWidth={2} />
+              ) : (
+                <ArrowRight size={16} strokeWidth={2} className="group-hover:translate-x-0.5 transition-transform" />
+              )}
+            </button>
+            <div role="status" aria-live="polite">
+              {status === "success" && (
+                <motion.p
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex items-center gap-2 text-sm text-accent-ink"
+                >
+                  <Check size={15} strokeWidth={2} className="shrink-0" />
+                  Thanks — I'll get back to you soon.
+                </motion.p>
+              )}
+              {status === "error" && (
+                <motion.p
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex items-center gap-2 text-sm text-red-500 dark:text-red-400"
+                >
+                  <AlertCircle size={15} strokeWidth={2} className="shrink-0" />
+                  Something went wrong. Try again, or email me directly at{" "}
+                  <a href="mailto:wilsannick55@gmail.com" className="underline">
+                    wilsannick55@gmail.com
+                  </a>
+                  .
+                </motion.p>
+              )}
+            </div>
+          </motion.form>
+        </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 // ─── Footer ────────────────────────────────────────────────────────────────────
 

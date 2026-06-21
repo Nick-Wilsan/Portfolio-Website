@@ -515,7 +515,7 @@ export default function TravelWiseCase() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="p-3 rounded-lg border-t-2 border-red-400 bg-red-50 dark:bg-red-500/10"
+                  className="p-3 rounded-lg border border-red-200 bg-red-50 dark:border-red-500/30 dark:bg-red-500/10"
                 >
                   <p className="text-xs font-bold text-ink mb-1">{s.phase}</p>
                   <p className="text-xs text-muted mb-2 leading-snug">{s.action}</p>
