@@ -1,0 +1,164 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-06-21T00:16:33Z",
+  "title": "Design System: Nick Wilsan — Product Management Portfolio",
+  "extensions": {
+    "colorMeta": {
+      "accent": {
+        "role": "primary",
+        "displayName": "Moss Green",
+        "canonical": "#2f7a4e",
+        "tonalRamp": ["#0c2117", "#15331f", "#1d472a", "#235e3b", "#2f7a4e", "#479a68", "#74bb8c", "#a9dabb"]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "#f6f6f3",
+        "tonalRamp": ["#0c0c0b", "#1c1b18", "#2c2b27", "#494844", "#8a887f", "#c4c2ba", "#e2e0d8", "#f6f6f3"]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Surface",
+        "canonical": "#fbfbf9",
+        "tonalRamp": ["#0e0e0d", "#151513", "#232220", "#4c4b46", "#8c8a81", "#c6c4bc", "#e4e2da", "#fbfbf9"]
+      },
+      "raised": {
+        "role": "neutral",
+        "displayName": "Raised",
+        "canonical": "#ffffff",
+        "tonalRamp": ["#121211", "#1c1b18", "#2e2d29", "#504f49", "#908e85", "#cacac2", "#e8e6de", "#ffffff"]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#121210",
+        "tonalRamp": ["#121210", "#1f1e1b", "#34332e", "#56554e", "#8a887f", "#b8b6ad", "#dad8d0", "#f6f5f0"]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted",
+        "canonical": "#494844",
+        "tonalRamp": ["#161614", "#252420", "#3a3935", "#494844", "#6e6c64", "#a3a199", "#cccac2", "#ececea"]
+      },
+      "faint": {
+        "role": "neutral",
+        "displayName": "Faint",
+        "canonical": "#6b6963",
+        "tonalRamp": ["#1c1b18", "#2e2c28", "#474540", "#5c5a54", "#6b6963", "#848176", "#a8a59c", "#cac8c0"]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Line",
+        "canonical": "#e2e0d8",
+        "tonalRamp": ["#1d1c19", "#292823", "#3c3b35", "#5e5c54", "#8e8c82", "#bcbab1", "#e2e0d8", "#f3f2ee"]
+      },
+      "accent-ink": {
+        "role": "primary",
+        "displayName": "Moss Green — Ink",
+        "canonical": "#235e3b",
+        "tonalRamp": ["#091811", "#0f261a", "#163828", "#235e3b", "#357f53", "#5fce8f", "#8fdcae", "#c3edd4"]
+      },
+      "accent-soft": {
+        "role": "primary",
+        "displayName": "Moss Green — Soft",
+        "canonical": "#e2f0e8",
+        "tonalRamp": ["#0d1812", "#15271d", "#1d3a2a", "#2a5c3e", "#458763", "#7fb999", "#bfe2cc", "#e2f0e8"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "The hero claim only; one per page (The Display-Once Rule)." },
+      "body": { "displayName": "Body", "purpose": "All paragraph copy, always set in Muted." },
+      "label": { "displayName": "Label", "purpose": "Eyebrows, hero-fact labels, browser-chrome status text." }
+    },
+    "shadows": [
+      { "name": "artifact", "value": "0 24px 60px -26px rgba(0,0,0,0.5)", "purpose": "The case-study browser-chrome mockup only; implies a lifted physical object." }
+    ],
+    "motion": [
+      { "name": "ease-settle", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "MaskReveal entrances — text rising from behind a clip." },
+      { "name": "ease-standard", "value": "ease-out", "purpose": "Fade/slide-up entrances for paragraphs and hero facts." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Main CTA, e.g. \"See the work\". Ink fill, fully rounded, shifts to Moss Green on hover.",
+      "html": "<a href=\"#work\" class=\"ds-btn-primary\">See the work <svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M5 12h14M13 6l6 6-6 6\"/></svg></a>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 8px; background: #121210; color: #f6f6f3; padding: 14px 28px; border-radius: 9999px; font-size: 14px; font-weight: 500; font-family: 'Plus Jakarta Sans', sans-serif; text-decoration: none; transition: background 0.2s, transform 0.2s; } .ds-btn-primary:hover, .ds-btn-primary:focus-visible { background: #2f7a4e; } .ds-icon { width: 16px; height: 16px; transition: transform 0.2s; } .ds-btn-primary:hover .ds-icon { transform: translateX(2px); }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Lower-emphasis action, e.g. \"Get in touch\". Underline only, no fill.",
+      "html": "<a href=\"#contact\" class=\"ds-btn-ghost\">Get in touch</a>",
+      "css": ".ds-btn-ghost { font-size: 14px; color: #121210; border-bottom: 1px solid #e2e0d8; padding-bottom: 2px; text-decoration: none; transition: border-color 0.2s; } .ds-btn-ghost:hover, .ds-btn-ghost:focus-visible { border-color: #2f7a4e; }"
+    },
+    {
+      "name": "Filter Tag — Active",
+      "kind": "chip",
+      "refersTo": "tag-active",
+      "description": "Selected filter pill in the Work section.",
+      "html": "<button class=\"ds-tag ds-tag-active\">Product Strategy</button>",
+      "css": ".ds-tag { font-size: 12px; letter-spacing: 0.02em; padding: 4px 12px; border-radius: 9999px; border: 1px solid transparent; font-family: 'Plus Jakarta Sans', sans-serif; } .ds-tag-active { background: #e2f0e8; color: #235e3b; }"
+    },
+    {
+      "name": "Filter Tag — Inactive",
+      "kind": "chip",
+      "refersTo": "tag-inactive",
+      "description": "Unselected filter pill in the Work section.",
+      "html": "<button class=\"ds-tag ds-tag-inactive\">Research</button>",
+      "css": ".ds-tag-inactive { background: transparent; color: #494844; border: 1px solid #e2e0d8; }"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input-field",
+      "description": "Contact form field.",
+      "html": "<textarea class=\"ds-input\" placeholder=\"Tell me about the role...\"></textarea>",
+      "css": ".ds-input { width: 100%; background: #ffffff; border: 1px solid #e2e0d8; border-radius: 8px; padding: 16px; font-size: 16px; color: #121210; font-family: 'Plus Jakarta Sans', sans-serif; outline: none; transition: border-color 0.2s, box-shadow 0.2s; } .ds-input::placeholder { color: #8a887f; } .ds-input:focus { border-color: #2f7a4e; box-shadow: 0 0 0 1px #2f7a4e; }"
+    },
+    {
+      "name": "Artifact Card",
+      "kind": "card",
+      "refersTo": "artifact-card",
+      "description": "Browser-chrome mockup framing a case-study screenshot.",
+      "html": "<div class=\"ds-artifact\"><div class=\"ds-artifact-chrome\"><span class=\"ds-dot\"></span><span class=\"ds-dot\"></span><span class=\"ds-dot\"></span></div><div class=\"ds-artifact-body\">Screenshot</div></div>",
+      "css": ".ds-artifact { border-radius: 12px; border: 1px solid #e2e0d8; background: #ffffff; overflow: hidden; box-shadow: 0 24px 60px -26px rgba(0,0,0,0.5); } .ds-artifact-chrome { display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-bottom: 1px solid #e2e0d8; } .ds-dot { width: 10px; height: 10px; border-radius: 9999px; background: #e2e0d8; } .ds-artifact-body { padding: 24px; color: #8a887f; font-size: 14px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Case File",
+    "overview": "This site is built to read like a case file, not a pitch deck: every claim about Nick's process is followed immediately by the artifact that backs it up — a case study, a prioritization call, a piece of written requirements. The design exists to get out of the way of that evidence, not to perform confidence on its behalf.\n\nThe palette is near-monochrome paper-and-ink with a single moss-green accent held in reserve, the typography pairs an unhurried serif display against a clean grotesque body, and motion is restrained — entrances that settle the page in, not choreography that competes with the reading. Nothing here should look like it was assembled from a SaaS landing-page kit: no gradient hero text, no uniform icon-grid feature cards, no bento boxes.",
+    "keyCharacteristics": [
+      "Paper-and-ink neutrals with one disciplined accent, never decorative.",
+      "Newsreader serif for display moments, Plus Jakarta Sans for everything functional.",
+      "Flat surfaces; shadow reserved for one signature artifact (the browser-chrome case-study mockup).",
+      "Quiet, settling motion (mask reveals, gentle parallax) — never scroll-jacking choreography."
+    ],
+    "rules": [
+      { "name": "The Rare Green Rule", "body": "Moss green never fills a surface; it marks a single point of attention per view (one CTA, one active tag, one emphasized word). If green is touching more than ~10% of any screen, pull it back.", "section": "colors" },
+      { "name": "The Display-Once Rule", "body": "The largest display size appears exactly once per page, in the hero. Every other heading steps down at least one tier so the hero claim keeps its weight.", "section": "typography" },
+      { "name": "The One Shadow Rule", "body": "Exactly one shadow value exists in the system, reserved for the case-study artifact. Buttons, tags, inputs, and nav stay flat with borders or fills, never shadows.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep Moss Green to a single point of attention per view (CTA hover, one active tag, one emphasis word).",
+      "Do pair every process claim with a concrete artifact or number.",
+      "Do use the Paper/Surface background swap and Line hairlines for section rhythm instead of cards or shadows.",
+      "Do respect prefers-reduced-motion on every reveal, parallax, or count-up animation."
+    ],
+    "donts": [
+      "Don't introduce gradient hero text, uniform icon-grid feature cards, or bento-box layouts.",
+      "Don't add a second saturated color.",
+      "Don't add shadows to buttons, tags, inputs, or nav.",
+      "Don't use a face photo anywhere in the system.",
+      "Don't stack a tiny uppercase eyebrow above every section on top of the existing numbered section heads."
+    ]
+  }
+}
