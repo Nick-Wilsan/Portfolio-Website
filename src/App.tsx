@@ -822,7 +822,7 @@ const skillSet = [
       "Business Case Development",
       "Market Research",
       "Agile Methodology",
-      "Figma & Adobe XD",
+      "Figma",
       "HTML / CSS / JS",
     ],
   },
