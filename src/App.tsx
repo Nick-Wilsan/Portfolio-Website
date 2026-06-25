@@ -3,6 +3,7 @@ import { useState, useEffect, useRef, Fragment, type ReactNode, type FormEvent }
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { ArrowUpRight, ArrowRight, Mail, Phone, MapPin, Menu, X, Sun, Moon, Check, AlertCircle } from "lucide-react";
 import TravelWiseCase from "./pages/TravelWiseCase";
+import RoundUpCase from "./pages/RoundUpCase";
 
 // ─── Scroll Progress Bar ───────────────────────────────────────────────────────
 
@@ -459,13 +460,21 @@ const projects: Project[] = [
     ],
   },
   {
-    title: "ReStylo",
-    meta: "2026 · academic project",
+    title: "AI Adaptive Round-Up Savings",
+    meta: "2026 · solo product manager",
     blurb:
-      "A coursework project where I worked the business side: business-case design, market-trend analysis, and defining the KPIs that would tell us whether it was working.",
-    tags: ["Business Case", "Market Analysis", "KPIs"],
-    tier: "text",
-    note: "Write-up in progress",
+      "A round-up savings mechanism for Indonesian fintech that pauses itself when a user's balance is running low, designed to work across e-wallets and banks instead of locking users into one. I owned the research, RICE prioritization, AI feature spec, and acceptance criteria.",
+    tags: ["Research", "RICE", "AI Spec"],
+    tier: "feature",
+    href: "/case/roundup-savings",
+    image: "/work/roundup-01.png",
+    imageAlt:
+      "Cover page of the AI Adaptive Universal Round-Up Savings case study, showing a savings widget rounding Rp 17.583 up to Rp 20.000",
+    stats: [
+      { num: "70%", label: "of Indonesians don't save at all" },
+      { num: "34.5%", label: "say impulsive spending is why" },
+      { num: "0", label: "existing round-up apps adapt to balance health" },
+    ],
   },
 ];
 
@@ -1089,6 +1098,7 @@ export default function App() {
           }
         />
         <Route path="/case/travelwise" element={<TravelWiseCase />} />
+        <Route path="/case/roundup-savings" element={<RoundUpCase />} />
       </Routes>
     </BrowserRouter>
   );
