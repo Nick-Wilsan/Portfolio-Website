@@ -10,11 +10,11 @@ import { Accent, Glow, Rise, SectionTitle, ThemeToggle } from "./ui";
 const TopBar = () => (
   <header className="fixed top-0 inset-x-0 z-50 px-4 pt-4">
     <nav className="mx-auto max-w-7xl flex items-center justify-between rounded-full border border-line bg-surface px-5 py-2.5">
-      <Link to="/v2" className="font-heading text-xl font-extrabold text-ink">
+      <Link to="/" className="font-heading text-xl font-extrabold text-ink">
         Nick<span className="text-accent">.</span>
       </Link>
       <a
-        href="/v2#products"
+        href="/#products"
         aria-label="All products"
         className="group inline-flex items-center gap-2 rounded-full px-3 sm:px-4 py-2.5 text-sm text-muted hover:text-ink transition-colors"
       >
@@ -24,7 +24,7 @@ const TopBar = () => (
       <div className="flex items-center gap-1">
         <ThemeToggle />
         <a
-          href="/v2#contact"
+          href="/#contact"
           className="rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-on-accent hover:bg-accent-ink transition-colors"
         >
           Contact me
@@ -43,7 +43,7 @@ export default function ProjectPage() {
     if (p) document.title = `${p.name} - Nick Wilsan`;
   }, [p]);
 
-  if (!p) return <Navigate to="/v2" replace />;
+  if (!p) return <Navigate to="/" replace />;
   const d = p.detail;
   const next = projects[(projects.indexOf(p) + 1) % projects.length];
 
@@ -225,7 +225,7 @@ export default function ProjectPage() {
         {next.slug !== p.slug && (
           <section className="mx-auto max-w-7xl px-5 pb-16 md:pb-24">
             <Link
-              to={`/v2/projects/${next.slug}`}
+              to={`/projects/${next.slug}`}
               style={brandStyle(next.brand)}
               className="brand group flex flex-col md:flex-row md:items-end md:justify-between gap-6 rounded-[2rem] border border-line p-7 md:p-10 hover:border-accent transition-colors"
             >

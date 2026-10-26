@@ -168,11 +168,11 @@ const sidebarSections = [
 ];
 
 // `v2`: render inside the v2 design (its tokens, Archivo type, this case
-// study's own color, light/dark toggle) for /v2/case/*. Without it the page
-// stays the original editorial version linked from the old homepage.
+// study's own color, light/dark toggle) for /case/*. Without it the page
+// stays the original editorial version, linked from /classic.
 export default function RoundUpCase({ v2 = false }: { v2?: boolean }) {
-  const home = v2 ? "/v2" : "/";
-  const back = v2 ? "/v2#cases" : "/";
+  const home = v2 ? "/" : "/classic";
+  const back = v2 ? "/#cases" : "/classic";
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

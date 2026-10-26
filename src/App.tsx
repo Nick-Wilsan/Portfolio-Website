@@ -1,6 +1,6 @@
 import { motion, useScroll, useSpring, useInView, useReducedMotion, useTransform } from "motion/react";
 import { useState, useEffect, useRef, Fragment, type ReactNode, type FormEvent } from "react";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
 import { ArrowUpRight, ArrowRight, Mail, Phone, MapPin, Menu, X, Sun, Moon, Check, AlertCircle } from "lucide-react";
 import TravelWiseCase from "./pages/TravelWiseCase";
 import RoundUpCase from "./pages/RoundUpCase";
@@ -451,7 +451,7 @@ const projects: Project[] = [
       "An AI-powered multi-modal travel aggregator for Indonesian students juggling 3+ apps to book one trip home. I owned the research, RICE prioritization, PRD, and go-to-market story.",
     tags: ["Research", "Prioritization", "PRD", "GTM"],
     tier: "feature",
-    href: "/case/travelwise",
+    href: "/classic/case/travelwise",
     image: "/work/prd-02.png",
     imageAlt:
       "A research page from the TravelWise AI PRD showing survey stats and a competitor comparison table",
@@ -468,7 +468,7 @@ const projects: Project[] = [
       "A round-up savings mechanism for Indonesian fintech that pauses itself when a user's balance is running low, designed to work across e-wallets and banks instead of locking users into one. I owned the research, RICE prioritization, AI feature spec, and acceptance criteria.",
     tags: ["Research", "RICE", "AI Spec"],
     tier: "feature",
-    href: "/case/roundup-savings",
+    href: "/classic/case/roundup-savings",
     image: "/work/roundup-01.png",
     imageAlt:
       "Cover page of the AI Adaptive Universal Round-Up Savings case study, showing a savings widget rounding Rp 17.583 up to Rp 20.000",
@@ -1081,8 +1081,14 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* The v2 design is the homepage; the original editorial site lives on
+            at /classic with its own case study versions. */}
+        <Route path="/" element={<HomeV2 />} />
+        <Route path="/projects/:slug" element={<ProjectPage />} />
+        <Route path="/case/travelwise" element={<TravelWiseCase v2 />} />
+        <Route path="/case/roundup-savings" element={<RoundUpCase v2 />} />
         <Route
-          path="/"
+          path="/classic"
           element={
             <div className="bg-paper text-ink selection:bg-accent selection:text-paper">
               <ScrollProgressBar />
@@ -1099,12 +1105,10 @@ export default function App() {
             </div>
           }
         />
-        <Route path="/v2" element={<HomeV2 />} />
-        <Route path="/v2/projects/:slug" element={<ProjectPage />} />
-        <Route path="/v2/case/travelwise" element={<TravelWiseCase v2 />} />
-        <Route path="/v2/case/roundup-savings" element={<RoundUpCase v2 />} />
-        <Route path="/case/travelwise" element={<TravelWiseCase />} />
-        <Route path="/case/roundup-savings" element={<RoundUpCase />} />
+        <Route path="/classic/case/travelwise" element={<TravelWiseCase />} />
+        <Route path="/classic/case/roundup-savings" element={<RoundUpCase />} />
+        {/* Unknown paths (including the old /v2 preview URLs) land on the homepage */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );

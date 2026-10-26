@@ -24,7 +24,7 @@ import { Accent, ButtonGhost, ButtonPrimary, Glow, Rise, SectionTitle, ThemeTogg
 // default with a dark toggle, Nick's green plus each product's own color).
 // Products are shown as Remotion product films instead of app screenshots.
 // Type is Archivo only: extra-wide for display, normal width for text, like a
-// shipping label. Lives at /v2 until it replaces the homepage.
+// shipping label. This is the homepage at /; the old one is at /classic.
 
 const RESUME = "https://drive.google.com/file/d/1D5LhKvryphWln2RgZ449tl2pWoVg8FXj/view";
 
@@ -331,7 +331,7 @@ const ProductBlock = ({ p, flip }: { p: Project; flip: boolean }) => (
       <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-7">
         {/* Outline, not filled: the film mat is already this block's one big color */}
         <Link
-          to={`/v2/projects/${p.slug}`}
+          to={`/projects/${p.slug}`}
           className="group inline-flex items-center gap-2 rounded-full border border-accent px-5 py-3 text-sm font-semibold text-accent hover:bg-accent hover:text-on-accent transition-colors"
         >
           Read the full story
@@ -387,7 +387,7 @@ const cases: {
     title: "TravelWise AI",
     kind: "Travel · Students",
     desc: "A multi-modal travel aggregator for students juggling 3+ apps to book one trip home. Research, RICE, PRD, GTM.",
-    href: "/v2/case/travelwise",
+    href: "/case/travelwise",
     image: "/work/prd-02.png",
     alt: "A research page from the TravelWise AI PRD with survey stats and a competitor table",
     brand: TRAVELWISE,
@@ -396,7 +396,7 @@ const cases: {
     title: "AI Adaptive Round-Up Savings",
     kind: "Fintech · E-wallets",
     desc: "Round-up savings that pause themselves when a balance runs low, across e-wallets and banks. Research, RICE, AI spec.",
-    href: "/v2/case/roundup-savings",
+    href: "/case/roundup-savings",
     image: "/work/roundup-01.png",
     alt: "Cover of the Round-Up Savings case study, rounding Rp 17.583 up to Rp 20.000",
     brand: ROUNDUP,
@@ -702,7 +702,7 @@ const Footer = () => (
 // ─── Page ──────────────────────────────────────────────────────────────────────
 
 export default function HomeV2() {
-  // Coming back from a project page (/v2#products): jump to that section.
+  // Coming back from a project page (/#products): jump to that section.
   useEffect(() => {
     document.title = "Nick Wilsan - PM Portfolio";
     const id = window.location.hash.slice(1);

@@ -78,7 +78,7 @@ export const brandStyle = (b: Brand) =>
   }) as CSSProperties;
 
 // Every shipped product, used by both the homepage (summary fields) and its
-// own page at /v2/projects/:slug (detail fields).
+// own page at /projects/:slug (detail fields).
 //
 // To add a product: append an entry, with its video in `film` through
 // <VideoFilm> (muted H.264 MP4 + poster in public/work).
