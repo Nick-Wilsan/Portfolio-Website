@@ -4,6 +4,8 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { ArrowUpRight, ArrowRight, Mail, Phone, MapPin, Menu, X, Sun, Moon, Check, AlertCircle } from "lucide-react";
 import TravelWiseCase from "./pages/TravelWiseCase";
 import RoundUpCase from "./pages/RoundUpCase";
+import HomeV2 from "./v2/HomeV2";
+import ProjectPage from "./v2/ProjectPage";
 
 // ─── Scroll Progress Bar ───────────────────────────────────────────────────────
 
@@ -1097,6 +1099,10 @@ export default function App() {
             </div>
           }
         />
+        <Route path="/v2" element={<HomeV2 />} />
+        <Route path="/v2/projects/:slug" element={<ProjectPage />} />
+        <Route path="/v2/case/travelwise" element={<TravelWiseCase v2 />} />
+        <Route path="/v2/case/roundup-savings" element={<RoundUpCase v2 />} />
         <Route path="/case/travelwise" element={<TravelWiseCase />} />
         <Route path="/case/roundup-savings" element={<RoundUpCase />} />
       </Routes>

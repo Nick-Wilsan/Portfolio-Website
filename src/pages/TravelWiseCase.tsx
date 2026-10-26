@@ -2,6 +2,8 @@ import { useEffect, Fragment, type ReactNode, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, useScroll, useSpring, useInView } from "motion/react";
 import { ArrowLeft, ExternalLink, Download } from "lucide-react";
+import { TRAVELWISE, brandStyle } from "../v2/projects";
+import { ThemeToggle } from "../v2/ui";
 
 // ─── Scroll Progress ──────────────────────────────────────────────────────────
 const ScrollProgressBar = () => {
@@ -165,7 +167,12 @@ const sidebarSections = [
   { id: "outcome", label: "Outcome & Reflection", num: "05" },
 ];
 
-export default function TravelWiseCase() {
+// `v2`: render inside the v2 design (its tokens, Archivo type, this case
+// study's own color, light/dark toggle) for /v2/case/*. Without it the page
+// stays the original editorial version linked from the old homepage.
+export default function TravelWiseCase({ v2 = false }: { v2?: boolean }) {
+  const home = v2 ? "/v2" : "/";
+  const back = v2 ? "/v2#cases" : "/";
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -190,21 +197,28 @@ export default function TravelWiseCase() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-paper text-ink selection:bg-accent selection:text-paper">
+    <div
+      style={v2 ? brandStyle(TRAVELWISE) : undefined}
+      className={`${v2 ? "v2 brand font-body overflow-x-clip " : ""}min-h-screen bg-paper text-ink selection:bg-accent selection:text-paper`}
+    >
+      {v2 && <div className="v2-grain" aria-hidden />}
       <ScrollProgressBar />
       {/* ── NAVBAR ── */}
       <nav className="fixed top-0 w-full z-50 bg-paper/85 backdrop-blur-xl border-b border-line">
         <div className="flex justify-between items-center max-w-[1320px] mx-auto px-6 md:px-8 py-4 md:py-5">
-          <Link to="/" className="font-display text-lg font-medium tracking-tight text-ink">
+          <Link to={home} className="font-display text-lg font-medium tracking-tight text-ink">
             Nick Wilsan
           </Link>
+          <div className="flex items-center gap-2">
+          {v2 && <ThemeToggle />}
           <Link
-            to="/"
+            to={back}
             className="flex items-center gap-2 text-xs uppercase tracking-widest text-muted hover:text-ink transition-colors font-medium"
           >
             <ArrowLeft size={14} strokeWidth={2} />
             Back to portfolio
           </Link>
+          </div>
         </div>
       </nav>
 
