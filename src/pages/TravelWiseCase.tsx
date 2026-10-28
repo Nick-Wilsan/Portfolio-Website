@@ -167,12 +167,9 @@ const sidebarSections = [
   { id: "outcome", label: "Outcome & Reflection", num: "05" },
 ];
 
-// `v2`: render inside the v2 design (its tokens, Archivo type, this case
-// study's own color, light/dark toggle) for /case/*. Without it the page
-// stays the original editorial version, linked from /classic.
-export default function TravelWiseCase({ v2 = false }: { v2?: boolean }) {
-  const home = v2 ? "/" : "/classic";
-  const back = v2 ? "/#cases" : "/classic";
+// Rendered in the site design: its tokens, Archivo type, this case study's
+// own color, and the light/dark toggle.
+export default function TravelWiseCase() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -198,21 +195,21 @@ export default function TravelWiseCase({ v2 = false }: { v2?: boolean }) {
 
   return (
     <div
-      style={v2 ? brandStyle(TRAVELWISE) : undefined}
-      className={`${v2 ? "v2 brand font-body overflow-x-clip " : ""}min-h-screen bg-paper text-ink selection:bg-accent selection:text-paper`}
+      style={brandStyle(TRAVELWISE)}
+      className="v2 brand font-body overflow-x-clip min-h-screen bg-paper text-ink selection:bg-accent selection:text-paper"
     >
-      {v2 && <div className="v2-grain" aria-hidden />}
+      <div className="v2-grain" aria-hidden />
       <ScrollProgressBar />
       {/* ── NAVBAR ── */}
       <nav className="fixed top-0 w-full z-50 bg-paper/85 backdrop-blur-xl border-b border-line">
         <div className="flex justify-between items-center max-w-[1320px] mx-auto px-6 md:px-8 py-4 md:py-5">
-          <Link to={home} className="font-display text-lg font-medium tracking-tight text-ink">
+          <Link to="/" className="font-display text-lg font-medium tracking-tight text-ink">
             Nick Wilsan
           </Link>
           <div className="flex items-center gap-2">
-          {v2 && <ThemeToggle />}
+          <ThemeToggle />
           <Link
-            to={back}
+            to="/#cases"
             className="flex items-center gap-2 text-xs uppercase tracking-widest text-muted hover:text-ink transition-colors font-medium"
           >
             <ArrowLeft size={14} strokeWidth={2} />

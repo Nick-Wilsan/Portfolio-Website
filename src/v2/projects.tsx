@@ -112,7 +112,7 @@ export const projects: Project[] = [
   {
     slug: "hongfu-system",
     name: "Hongfu System",
-    status: "Client pilot, 2026",
+    status: "In daily use, 2026",
     oneLiner:
       "A production and warehouse system for a liquid manufacturer in Batam. Every drum gets a unique QR, every move is a scan, and accounting stays in Accurate Online.",
     role: "Freelance, solo: requirements, design, build. 300+ commits in the first month.",
@@ -147,7 +147,7 @@ export const projects: Project[] = [
       facts: [
         { label: "Client", value: "Liquid manufacturer (OEM/ODM), Batam" },
         { label: "Role", value: "Freelance, solo: discovery, PRD, design, build, testing" },
-        { label: "Timeline", value: "Sep 2026 - now" },
+        { label: "Timeline", value: "Aug 2026 - Nov 2026" },
         { label: "Platform", value: "Web app on laptops, phones as scanners" },
       ],
       problem: {
@@ -230,7 +230,7 @@ export const projects: Project[] = [
         ],
       },
       status:
-        "Built and tested against an Accurate practice company. The switch to the client's real Accurate is built but still locked; the plan is to open it with one small order, then run a two-week trial with approvals on.",
+        "In daily use at the factory since October 2026, connected to the client's real Accurate company with approvals on.",
       learned: [
         "Listening to the floor changed the scope more than any feature request. The label turned out to be the last step of a chain, not the product.",
         "Writing into someone else's accounting system is a trust problem before it is an API problem. The approval queue earned more confidence than any demo.",
@@ -274,7 +274,7 @@ export const projects: Project[] = [
       facts: [
         { label: "Client", value: "Used-car showroom, Batam" },
         { label: "Role", value: "Product owner & solo developer, also my thesis research" },
-        { label: "Timeline", value: "May 2026 - now" },
+        { label: "Timeline", value: "May 2026 - Jun 2026" },
         { label: "Platform", value: "Android, live on Google Play" },
       ],
       problem: {

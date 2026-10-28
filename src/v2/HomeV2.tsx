@@ -24,7 +24,7 @@ import { Accent, ButtonGhost, ButtonPrimary, Glow, Rise, SectionTitle, ThemeTogg
 // default with a dark toggle, Nick's green plus each product's own color).
 // Products are shown as Remotion product films instead of app screenshots.
 // Type is Archivo only: extra-wide for display, normal width for text, like a
-// shipping label. This is the homepage at /; the old one is at /classic.
+// shipping label. This is the homepage at /.
 
 const RESUME = "https://drive.google.com/file/d/1D5LhKvryphWln2RgZ449tl2pWoVg8FXj/view";
 
@@ -284,7 +284,8 @@ const About = () => (
         <p className="text-base text-muted leading-relaxed text-pretty">
           I like the part most people skip: getting the problem right before anyone writes code. I run the research,
           score priorities honestly, and write requirements an engineer can build to. Then, because I can code, I build
-          the thing and put it in front of the people who asked for it.
+          the thing and put it in front of the people who asked for it. I use AI tools (Claude, Cursor, Claude Code) at
+          every stage, from research synthesis to specs to code.
         </p>
         <div className="mt-7">
           <ButtonGhost href="#contact">Let's talk</ButtonGhost>
@@ -498,28 +499,22 @@ const HowIWork = () => (
 
 const experience = [
   {
-    period: "2026 - now",
+    period: "May 2026 - Nov 2026",
     role: "Independent product builder",
     org: "Hongfu System, AkaMobilindo",
     desc: "Scoping, designing and building software for two Batam businesses, from first interview to production.",
   },
   {
-    period: "Feb 2026 - now",
-    role: "Product Manager Trainee",
+    period: "Feb 2026 - Jun 2026",
+    role: "PM Bootcamp",
     org: "Harisenin.com",
-    desc: "Full PRDs, go-to-market strategies, and competitor research across bootcamp missions.",
+    desc: "Wrote full PRDs, go-to-market strategies, and competitor research across bootcamp missions.",
   },
   {
-    period: "Aug 2024 - Dec 2027",
+    period: "Aug 2024 - Dec 2027 (expected)",
     role: "Bachelor of Information Systems",
     org: "Universitas Brawijaya",
     desc: "GPA 3.69 / 4.00. System Analysis & Design, Requirements Engineering, UI Design.",
-  },
-  {
-    period: "Jan 2022 - Feb 2023",
-    role: "Logistics Staff",
-    org: "University event committees",
-    desc: "Coordinated equipment and resources for 2 major university events.",
   },
 ];
 
