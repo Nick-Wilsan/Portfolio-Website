@@ -3,8 +3,9 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --font-display: "Newsreader", Georgia, serif;
-  --font-body: "Plus Jakarta Sans", sans-serif;
+  /* Archivo is the only family the site loads (index.html) */
+  --font-display: "Archivo", sans-serif;
+  --font-body: "Archivo", sans-serif;
   --font-heading: "Archivo", sans-serif;
 }
 
@@ -138,8 +139,8 @@
   font-stretch: 125%;
 }
 
-/* Pages built for the old site (the case studies) use font-display for their
-   serif headings; inside v2 they take the same wide Archivo as everything else */
+/* The case studies (first written for the old site) mark headings with
+   font-display; they take the same wide Archivo as every other heading */
 .v2 .font-display {
   font-family: var(--font-heading);
   font-stretch: 125%;
