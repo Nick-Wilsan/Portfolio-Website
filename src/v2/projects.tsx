@@ -274,7 +274,7 @@ export const projects: Project[] = [
       facts: [
         { label: "Client", value: "Used-car showroom, Batam" },
         { label: "Role", value: "Product owner & solo developer, also my thesis research" },
-        { label: "Timeline", value: "May 2026 - Jun 2026" },
+        { label: "Timeline", value: "Jan 2026 - Jun 2026" },
         { label: "Platform", value: "Android, live on Google Play" },
       ],
       problem: {
