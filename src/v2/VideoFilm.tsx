@@ -1,10 +1,11 @@
 import { motion, useInView, useMotionValue, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
-import { Maximize, Pause, Play } from "lucide-react";
+import { Maximize, Pause, Play, Volume2, VolumeX } from "lucide-react";
 
 // A rendered product video (made in Remotion) in a framed panel with
-// story-style chapter controls. Loops muted while on screen, pauses off
-// screen, and waits for a click when the viewer prefers reduced motion.
+// story-style chapter controls. Loops muted while on screen (browsers only
+// autoplay silent video), with a sound button to unmute; pauses off screen,
+// and waits for a click when the viewer prefers reduced motion.
 //
 // `chapters` mark where each part of the video starts (seconds), so the
 // segments can show progress and jump around.
@@ -104,6 +105,20 @@ export default function VideoFilm({ label, mp4, webm, poster, chapters, mat }: P
     }
   };
 
+  // Starts muted so autoplay is allowed. Mirrors the element's own state, so
+  // toggling sound in the browser's fullscreen controls keeps the icon right.
+  const [muted, setMuted] = useState(true);
+  const toggleSound = () => {
+    const v = videoRef.current;
+    if (!v) return;
+    v.muted = !v.muted;
+    // Turning sound on for a paused video means "play it with sound"
+    if (!v.muted && v.paused) {
+      setWantsPlay(true);
+      v.play().catch(() => {});
+    }
+  };
+
   // Panel colors as local variables, so the plain and branded panel share markup.
   const panel = (
     mat
@@ -126,13 +141,14 @@ export default function VideoFilm({ label, mp4, webm, poster, chapters, mat }: P
           onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
           onPlaying={() => setPlaying(true)}
           onPause={() => setPlaying(false)}
+          onVolumeChange={(e) => setMuted(e.currentTarget.muted)}
         >
           {webm && <source src={webm} type="video/webm" />}
           <source src={mp4} type="video/mp4" />
         </video>
       </div>
 
-      {/* Controls: story-style chapter segments, caption, play/pause, fullscreen */}
+      {/* Controls: story-style chapter segments, caption, play/pause, sound, fullscreen */}
       <div className="flex items-center gap-4 px-2 pt-3 pb-1">
         <button
           onClick={toggle}
@@ -165,6 +181,14 @@ export default function VideoFilm({ label, mp4, webm, poster, chapters, mat }: P
             <span className="opacity-90">{chapters[index].caption}</span>
           </p>
         </div>
+        <button
+          onClick={toggleSound}
+          aria-label={muted ? "Turn sound on" : "Turn sound off"}
+          aria-pressed={!muted}
+          className={ctrlClass}
+        >
+          {muted ? <VolumeX size={14} strokeWidth={2.25} /> : <Volume2 size={14} strokeWidth={2.25} />}
+        </button>
         <button
           onClick={fullscreen}
           aria-label="Watch full screen"

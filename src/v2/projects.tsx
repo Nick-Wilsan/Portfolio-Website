@@ -81,7 +81,7 @@ export const brandStyle = (b: Brand) =>
 // own page at /projects/:slug (detail fields).
 //
 // To add a product: append an entry, with its video in `film` through
-// <VideoFilm> (muted H.264 MP4 + poster in public/work).
+// <VideoFilm> (H.264 MP4 with AAC audio + poster in public/work).
 //
 // Keep client data out of here: no customer names, prices, or formulas.
 
@@ -123,9 +123,9 @@ export const projects: Project[] = [
     ],
     stack: ["Next.js", "PostgreSQL", "Drizzle", "Accurate API"],
     brand: HONGFU,
-    // Made in Remotion. The web copy is a muted, compressed H.264 MP4 (see
-    // public/work). A VP9 WebM from Remotion's ffmpeg failed to decode in
-    // Chrome, so MP4 is the only source.
+    // Made in Remotion. The web copy is a compressed H.264 MP4 with 128 kbps
+    // AAC audio (see public/work). A VP9 WebM from Remotion's ffmpeg failed
+    // to decode in Chrome, so MP4 is the only source.
     film: (
       <VideoFilm
         label="Hongfu System"
@@ -251,7 +251,7 @@ export const projects: Project[] = [
     ],
     stack: ["React Native", "Firebase", "FCM", "TypeScript"],
     brand: AKA,
-    // Made in Remotion, same pipeline as Hongfu (muted H.264 web copy).
+    // Made in Remotion, same pipeline as Hongfu (H.264 + AAC web copy).
     film: (
       <VideoFilm
         label="AkaMobilindo"
