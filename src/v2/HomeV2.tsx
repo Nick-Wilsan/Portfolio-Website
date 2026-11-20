@@ -497,7 +497,17 @@ const HowIWork = () => (
 
 // ─── Experience ────────────────────────────────────────────────────────────────
 
-const experience = [
+// `link` is optional proof (a certificate, a live app); entries without one
+// render exactly as before.
+type ExperienceItem = {
+  period: string;
+  role: string;
+  org: string;
+  desc: string;
+  link?: { href: string; label: string };
+};
+
+const experience: ExperienceItem[] = [
   {
     period: "May 2026 - Nov 2026",
     role: "Independent product builder",
@@ -509,6 +519,10 @@ const experience = [
     role: "PM Bootcamp",
     org: "Harisenin.com",
     desc: "Wrote full PRDs, go-to-market strategies, and competitor research across bootcamp missions.",
+    link: {
+      href: "https://drive.google.com/file/d/1gqFc07m4I2NcHpHqVFvV9v7Gs8va55NT/view",
+      label: "View certificate",
+    },
   },
   {
     period: "Aug 2024 - Dec 2027 (expected)",
@@ -540,6 +554,18 @@ const Experience = () => (
                 <h3 className="text-lg font-semibold text-ink">{it.role}</h3>
                 <p className="text-sm text-faint">{it.org}</p>
                 <p className="text-sm text-muted leading-relaxed mt-2.5 text-pretty">{it.desc}</p>
+                {it.link && (
+                  <a
+                    href={it.link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${it.link.label}: ${it.org} (opens in a new tab)`}
+                    className="group inline-flex items-center gap-1.5 text-sm font-semibold text-accent mt-3 py-1"
+                  >
+                    {it.link.label}
+                    <ArrowUpRight size={15} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  </a>
+                )}
               </div>
             </div>
           ))}
